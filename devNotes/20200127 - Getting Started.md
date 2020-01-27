@@ -109,3 +109,6 @@ namespace µImage.Viewer
 >dotnet run --project µImage.Viewer\µImage.Viewer.csproj
 ````
 [dotnet run](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run?tabs=netcore30)
+
+first result:
+![first result](screenshots/2020-01-27%2023.38.29%20-%20%C2%B5Image.Viewer.png?raw=true)
