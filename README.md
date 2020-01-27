@@ -1,4 +1,4 @@
-# uImage
+# µImage
 Learn C#/WPF by building micro Image Viewer from scratch.
 
 Just my "learning by doing" project, which could be useful for someone else.
