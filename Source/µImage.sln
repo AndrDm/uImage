@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "µImage.Viewer", "µImage.Viewer\µImage.Viewer.csproj", "{E0202706-D62D-48CD-9AE2-6DBE3615E657}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "µImage.Viewer", "µImage.Viewer\µImage.Viewer.csproj", "{E0202706-D62D-48CD-9AE2-6DBE3615E657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "µImage.Display", "µImage.Display\µImage.Display.csproj", "{B4A73635-46C3-4FE2-930D-1966CB3EC13C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "µImage.Display", "µImage.Display\µImage.Display.csproj", "{B4A73635-46C3-4FE2-930D-1966CB3EC13C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{FB549CF2-D8B4-4A92-9547-DB8DB62891CF}"
+	ProjectSection(SolutionItems) = preProject
+		..\Images\Zippo.jpg = ..\Images\Zippo.jpg
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,9 +18,6 @@ Global
 		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E0202706-D62D-48CD-9AE2-6DBE3615E657}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -34,5 +36,11 @@ Global
 		{B4A73635-46C3-4FE2-930D-1966CB3EC13C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4A73635-46C3-4FE2-930D-1966CB3EC13C}.Release|x64.ActiveCfg = Release|Any CPU
 		{B4A73635-46C3-4FE2-930D-1966CB3EC13C}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC719D80-3A8A-4FA9-9CA9-D9A78E9F97D2}
 	EndGlobalSection
 EndGlobal

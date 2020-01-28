@@ -13,9 +13,13 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <OutputPath>..\..\Build\Debug\</OutputPath>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\µImage.Display\µImage.Display.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="..\..\Images\Zippo.jpg" />
   </ItemGroup>
-
+  
 </Project>

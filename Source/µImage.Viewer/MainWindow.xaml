@@ -1,12 +1,13 @@
-﻿<Window x:Class="µImage.Viewer.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:µImage.Viewer"
+        xmlns:Display="clr-namespace:µImage.Display;assembly=µImage.Display" x:Class="µImage.Viewer.MainWindow"
         mc:Ignorable="d"
         Title="µImage.Viewer" Height="600" Width="800">
     <Grid>
-        <Image Name="µImage" Height="512" Width="512" Source="Zippo.jpg" />
+        <Display:uImageControl HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Window>
