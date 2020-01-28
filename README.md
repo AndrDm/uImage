@@ -3,6 +3,9 @@ Learn C#/WPF by building micro Image Viewer from scratch.
 
 Just my "learning by doing" project, which could be useful for someone else.
 
+v.1.2.0.4 (28-JAN-2020)
+Custom User Control "µImage.Display" added
+
 v.1.2.0.3 (28-JAN-2020)
 Zoom functionality added
 
