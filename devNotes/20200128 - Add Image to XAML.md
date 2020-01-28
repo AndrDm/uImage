@@ -35,3 +35,4 @@ now
 >dotnet run
 ````
 
+![and result](screenshots/2020-01-28%2006.38.29%20-%20%C2%B5Image.Viewer.png?raw=true)
