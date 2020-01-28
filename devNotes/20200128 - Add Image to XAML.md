@@ -35,4 +35,3 @@ now
 >dotnet run
 ````
 
-![and result](screenshots/2020-01-28 06.38.29 - µImage.Viewer.png?raw=true)
