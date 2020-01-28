@@ -14,4 +14,8 @@
     <OutputPath>..\..\Build\Debug\</OutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Resource Include="..\..\Images\Zippo.jpg" />
+  </ItemGroup>
+
 </Project>

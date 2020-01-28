@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="µImage.Viewer" Height="600" Width="800">
     <Grid>
-
+        <Image Height="512" Width="512" Source="Zippo.jpg" />
     </Grid>
 </Window>
