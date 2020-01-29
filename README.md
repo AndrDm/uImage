@@ -15,8 +15,11 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 >dotnet run µImage.Viewer.csproj
 ````
 
-v.1.4.0.8 (29-JAN-2020)
+v.1.5.0.9 (29-JAN-2020)
 Pan functionality was added to the Display Control
+
+v.1.4.0.8 (29-JAN-2020)
+Zoom centered around mouse pointer
 
 v.1.3.0.7 (29-JAN-2020)
 Magnification handled as DependencyProperty
