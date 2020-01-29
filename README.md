@@ -14,6 +14,10 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 ````console
 >dotnet run µImage.Viewer.csproj
 ````
+
+v.1.3.0.7 (29-JAN-2020)
+Magnification handled as DependencyProperty
+
 v.1.3.0.6 (29-JAN-2020)
 Scroll Bars added, Scroll Event received from Grid instead of image
 
