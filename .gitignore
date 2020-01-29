@@ -356,3 +356,6 @@ MigrationBackup/
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
