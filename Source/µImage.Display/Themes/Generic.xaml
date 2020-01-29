@@ -6,13 +6,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:uImageControl}">
-                    <Grid>
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                        </Border>
-                        <Image Name="µImage" Height="512" Width="512" Source="Zippo.jpg" />
-                    </Grid>
+                    <ScrollViewer Name="PART_µScrollViewer"  HorizontalScrollBarVisibility="Visible"> 
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                            </Border>
+                            <Image Name="PART_µImage" Height="512" Width="512" Source="Zippo.jpg" />
+                            <Grid Name="PART_µMouseHandler" Background="#00FFFFFF"/>
+                        </Grid>
+                    </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

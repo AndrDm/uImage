@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="µImage.Viewer" Height="600" Width="800">
     <Grid>
-        <Display:uImageControl HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Display:uImageControl HorizontalAlignment="Center" VerticalAlignment="Center" Height="512" Width="512"/>
     </Grid>
 </Window>

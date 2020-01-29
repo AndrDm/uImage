@@ -7,10 +7,12 @@ using System.Windows.Media;
 namespace µImage.Display
 {
    
-    [TemplatePart(Name = "µImage", Type = typeof(Image))]
+    [TemplatePart(Name = "PART_µImage", Type = typeof(Image))]
+    [TemplatePart(Name = "PART_µMouseHandler", Type = typeof(Grid))]
     public class uImageControl : Control
     {
-        public static Image _µimage;
+        public static Image part_µimage;
+        public static Grid part_µMouseHandler;
 
         static uImageControl()
         {
@@ -21,25 +23,26 @@ namespace µImage.Display
         {
             base.OnApplyTemplate();
 
-            _µimage = GetTemplateChild("µImage") as Image;
+            part_µimage = GetTemplateChild("PART_µImage") as Image;
+            if (null == part_µimage) throw new NullReferenceException("Template Part µImage is not available");
+            part_µMouseHandler = GetTemplateChild("PART_µMouseHandler") as Grid;
+            if (null == part_µMouseHandler) throw new NullReferenceException("Template Part µMouseHandler is not available");
 
-            if (null == _µimage) throw new NullReferenceException("Template Part µImage is not available");
-            else{
-            _µimage.LayoutTransform = new ScaleTransform();
-            _µimage.MouseWheel += OnDisplayControlMouseWheel;
+            part_µimage.LayoutTransform = new ScaleTransform();
+            part_µMouseHandler.MouseWheel += OnDisplayControlMouseWheel;
+
         }
-    }
 
     private void OnDisplayControlMouseWheel(object sender, MouseWheelEventArgs e)
     {
 
-        ScaleTransform obj = (ScaleTransform)_µimage.LayoutTransform;
+        ScaleTransform obj = (ScaleTransform)part_µimage.LayoutTransform;
 
         double zoom = e.Delta > 0 ? .1 : -.1;
         obj.ScaleY = obj.ScaleX = (obj.ScaleX += zoom).LimitToRange(.1, 10);
 
         BitmapScalingMode mode = obj.ScaleX > 5 ? BitmapScalingMode.HighQuality : BitmapScalingMode.NearestNeighbor;
-        RenderOptions.SetBitmapScalingMode(_µimage, mode);
+        RenderOptions.SetBitmapScalingMode(part_µimage, mode);
 
         e.Handled = true;
     }
