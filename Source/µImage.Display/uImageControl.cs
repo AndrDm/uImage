@@ -16,6 +16,10 @@ namespace µImage.Display
         private Image part_µImage;
         private Grid part_µMouseHandler;
         private ScrollViewer part_µScrollViewer;
+
+        private Point _previousPanPoint = new Point(0.0, 0.0);
+        private bool _mouseDown = false;
+
         public static readonly DependencyProperty MagnificationProperty;
         public static readonly DependencyProperty MousePositionProperty;
 
@@ -41,10 +45,14 @@ namespace µImage.Display
             if (null == part_µScrollViewer) throw new NullReferenceException("Template Part µScrollViewer is not available");
 
             part_µImage.LayoutTransform = new ScaleTransform();
-            part_µMouseHandler.MouseWheel += OnDisplayControlMouseWheel;
+            
+            part_µMouseHandler.MouseWheel += OnµImageControlMouseWheel;
+            part_µMouseHandler.MouseLeftButtonDown += OnµImageControlMouseLeftButtonDown;
+            part_µMouseHandler.MouseMove += OnµImageControlMouseMove;
+            part_µMouseHandler.MouseLeftButtonUp += OnµImageControlMouseLeftButtonUp;
         }
 
-        private void OnDisplayControlMouseWheel(object sender, MouseWheelEventArgs e)
+        private void OnµImageControlMouseWheel(object sender, MouseWheelEventArgs e)
         {    
             SetCurrentValue(MousePositionProperty, Mouse.GetPosition(part_µImage));
 
@@ -54,5 +62,34 @@ namespace µImage.Display
     
             e.Handled = true;
         }    
+
+        private void OnµImageControlMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _previousPanPoint = Mouse.GetPosition(part_µScrollViewer);
+            part_µMouseHandler.CaptureMouse();
+            _mouseDown = true;
+        }
+
+        private void OnµImageControlMouseMove(object sender, MouseEventArgs e)
+        {
+            SetCurrentValue(MousePositionProperty, Mouse.GetPosition(part_µImage));
+
+            if (_mouseDown){
+                Point previousPanPoint = _previousPanPoint;
+                Point position = Mouse.GetPosition(part_µScrollViewer);
+                double x_diff = position.X - previousPanPoint.X;
+                double y_diff = position.Y - previousPanPoint.Y;
+                part_µScrollViewer.ScrollToHorizontalOffset(part_µScrollViewer.HorizontalOffset - x_diff);
+                part_µScrollViewer.ScrollToVerticalOffset(part_µScrollViewer.VerticalOffset - y_diff);
+                _previousPanPoint = position;
+            }
+        }
+
+        private void OnµImageControlMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            part_µMouseHandler.ReleaseMouseCapture();
+            _mouseDown = false;
+        }
+
     }
 }
