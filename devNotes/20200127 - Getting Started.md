@@ -1,3 +1,5 @@
+# 27-JAN-2020 - Getting Started
+
 ## Create new wpf project:
 
 ````console

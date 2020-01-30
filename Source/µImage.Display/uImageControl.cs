@@ -10,12 +10,18 @@ namespace µImage.Display
     [TemplatePart(Name = "PART_µImage", Type = typeof(Image))]
     [TemplatePart(Name = "PART_µMouseHandler", Type = typeof(Grid))]
     [TemplatePart(Name = "PART_µScrollViewer", Type = typeof(Grid))]
+    [TemplatePart(Name = "PART_µZoom", Type = typeof(TextBlock))]
+    [TemplatePart(Name = "PART_µInfo", Type = typeof(TextBlock))]
+
     
     public partial class uImageControl : Control
     {
         private Image part_µImage;
         private Grid part_µMouseHandler;
         private ScrollViewer part_µScrollViewer;
+        private TextBox part_µZoom;
+        private TextBox part_µInfo;
+
 
         private Point _previousPanPoint = new Point(0.0, 0.0);
         private bool _mouseDown = false;
@@ -43,6 +49,11 @@ namespace µImage.Display
             if (null == part_µMouseHandler) throw new NullReferenceException("Template Part µMouseHandler is not available");
             part_µScrollViewer = GetTemplateChild("PART_µScrollViewer") as ScrollViewer;
             if (null == part_µScrollViewer) throw new NullReferenceException("Template Part µScrollViewer is not available");
+            part_µZoom = GetTemplateChild("PART_µZoom") as TextBox;
+            if (null == part_µZoom) throw new NullReferenceException("Template Part µZoom is not available");
+            part_µInfo = GetTemplateChild("PART_µInfo") as TextBox;
+            if (null == part_µInfo) throw new NullReferenceException("Template Part µInfo is not available");
+
 
             part_µImage.LayoutTransform = new ScaleTransform();
             
@@ -59,7 +70,7 @@ namespace µImage.Display
             double zoom_delta = e.Delta > 0 ? .1 : -.1;            
             Magnification = (Magnification += zoom_delta).LimitToRange(.1, 10);
             CenterViewerAroundMouse(MousePosition);
-    
+            ShowMousePosition();
             e.Handled = true;
         }    
 
@@ -83,6 +94,7 @@ namespace µImage.Display
                 part_µScrollViewer.ScrollToVerticalOffset(part_µScrollViewer.VerticalOffset - y_diff);
                 _previousPanPoint = position;
             }
+            ShowMousePosition();            
         }
 
         private void OnµImageControlMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -91,5 +103,12 @@ namespace µImage.Display
             _mouseDown = false;
         }
 
+        private void ShowMousePosition()
+        {
+            Point pos = Mouse.GetPosition(part_µImage);
+            if ((pos.X>=0) && (pos.X < part_µImage.Width) &&(pos.Y>=0) && (pos.Y < part_µImage.Height)){
+                part_µInfo.Text = $"x = {Mouse.GetPosition(part_µImage).X:N0}; y = {Mouse.GetPosition(part_µImage).Y:N0}";
+            }
+        }
     }
 }

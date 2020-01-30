@@ -1,15 +1,11 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:µImage.Display">
-    <Style TargetType="{x:Type local:uImageControl}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:uImageControl}">
+These two indictor I'll place into dock containers
+
+````xml
+<ControlTemplate TargetType="{x:Type local:uImageControl}">
 		            <DockPanel LastChildFill="True">
 			            <DockPanel DockPanel.Dock="Bottom">                                        
-				            <TextBox  Name="PART_µZoom" DockPanel.Dock="Left" Width = "50" HorizontalContentAlignment="Right">100%</TextBox>
-				            <TextBox  Name="PART_µInfo" DockPanel.Dock="Left">x = 0, y = 0</TextBox>
+				            <TextBox  Name="PART_µZoom" DockPanel.Dock="Left">Zoom</TextBox>
+				            <TextBox  Name="PART_µInfo" DockPanel.Dock="Left">Zoom</TextBox>
 			            </DockPanel>                    
                         <ScrollViewer Name="PART_µScrollViewer"  HorizontalScrollBarVisibility="Visible"> 
                             <Grid>
@@ -23,7 +19,4 @@
                         </ScrollViewer>
 		            </DockPanel>                    
                 </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-</ResourceDictionary>
+````
