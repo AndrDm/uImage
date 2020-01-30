@@ -41,7 +41,7 @@ namespace µImage.Display
             if (part_µScrollViewer != null){
                 part_µScrollViewer.ScrollToHorizontalOffset(center.X * Magnification - Mouse.GetPosition(part_µScrollViewer).X);
                 part_µScrollViewer.ScrollToVerticalOffset(center.Y * Magnification - Mouse.GetPosition(part_µScrollViewer).Y);
-                }
-                }
+            }
+        }
     }
 }
