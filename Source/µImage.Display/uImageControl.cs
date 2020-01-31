@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+//using OpenCvSharp;
 
 namespace µImage.Display
 {
@@ -37,6 +39,16 @@ namespace µImage.Display
                 new PropertyMetadata(new Point(0.0, 0.0)));
 
             DefaultStyleKeyProperty.OverrideMetadata(typeof(uImageControl), new FrameworkPropertyMetadata(typeof(uImageControl)));
+        }
+
+        public void ApplyBitmap(BitmapImage bitmap)
+        {
+            part_µImage.Source = bitmap;
+        }
+
+        public void ApplyWriteableBitmap(WriteableBitmap bitmap)
+        {
+            part_µImage.Source = bitmap;
         }
 
         public override void OnApplyTemplate()

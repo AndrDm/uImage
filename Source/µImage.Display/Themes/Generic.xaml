@@ -17,7 +17,7 @@
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}">
                                 </Border>
-                                <Image Name="PART_µImage" Height="512" Width="512" Source="Zippo.jpg" />
+                                <Image Name="PART_µImage" Height="512" Width="512" />
                                 <Grid Name="PART_µMouseHandler" Background="#00FFFFFF"/>
                             </Grid>
                         </ScrollViewer>

@@ -14,12 +14,39 @@
     <OutputPath>..\..\Build\Debug\</OutputPath>
   </PropertyGroup>
   
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\µImage.Display\µImage.Display.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="..\..\Images\Zippo.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ContentWithTargetPath Include="..\..\Libraries\OpenCVSharp\Native\OpenCvSharpExtern.dll ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>OpenCvSharpExtern.dll</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OpenCvSharp">
+      <HintPath>..\..\Libraries\OpenCvSharp\Managed\OpenCvSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.Extensions">
+      <HintPath>..\..\Libraries\OpenCvSharp\Managed\OpenCvSharp.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Zippo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Zippo.jpg</TargetPath>
+    </None>
   </ItemGroup>
   
 </Project>

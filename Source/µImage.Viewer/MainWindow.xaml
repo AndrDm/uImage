@@ -7,8 +7,20 @@
         xmlns:Display="clr-namespace:µImage.Display;assembly=µImage.Display"
         x:Class="µImage.Viewer.MainWindow"
         mc:Ignorable="d"
-        Title="µImage.Viewer" Height="600" Width="800">
+        Title="µImage.Viewer" Loaded="MainWindow_Loaded" Height="600" Width="800">
     <Grid>
-        <Display:uImageControl HorizontalAlignment="Center" VerticalAlignment="Center" Height="512" Width="512"/>
+        <DockPanel LastChildFill="True">
+            <Display:uImageControl DockPanel.Dock="Left"
+                                   Name ="MyµImage" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   Height="512" Width="512" Margin="32,0,0,0"/>
+            <StackPanel Width="200" Height="512">
+                <Button Content="Original Image" Click="Original_Button_Click" />
+                <Button Content="Median 15 x 15" Click="Median_Button_Click" Margin="0,8,0,0" />
+                <Button Content="Dilate 5 x 5" Click="Dilate_Button_Click" Margin="0,8,0,0" />
+                <Button Content="Threshold" Click="Threshold_Button_Click" Margin="0,8,0,0" />
+            </StackPanel>
+        </DockPanel> 
     </Grid>
 </Window>

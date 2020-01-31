@@ -13,5 +13,17 @@
     <OutputPath>..\..\Build\Debug\</OutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ContentWithTargetPath Include="..\..\Libraries\OpenCVSharp\Native\OpenCvSharpExtern.dll ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>OpenCvSharpExtern.dll</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OpenCvSharp">
+      <HintPath>..\..\Libraries\OpenCvSharp\Managed\OpenCvSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
