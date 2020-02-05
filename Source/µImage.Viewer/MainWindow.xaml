@@ -3,24 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:µImage.Viewer"
-        xmlns:Display="clr-namespace:µImage.Display;assembly=µImage.Display"
-        x:Class="µImage.Viewer.MainWindow"
+        xmlns:local="clr-namespace:µ.Viewer"
+        xmlns:Display="clr-namespace:µ.Display;assembly=µImage.Display"
+        x:Class="µ.Viewer.MainWindow"
         mc:Ignorable="d"
         Title="µImage.Viewer" Loaded="MainWindow_Loaded" Height="600" Width="800">
+
     <Grid>
         <DockPanel LastChildFill="True">
-            <Display:uImageControl DockPanel.Dock="Left"
+            <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Click="menuOpen_Click" />
+                <Separator />
+                <MenuItem Header="_Quit" Click="menuQuit_Click" />
+            </MenuItem>
+            </Menu>
+            <Button DockPanel.Dock="Top" Content="Open File..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Open_Button_Click" />
+            <DockPanel LastChildFill="True">
+                <Display:uImageControl DockPanel.Dock="Left"
                                    Name ="MyµImage" 
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center" 
                                    Height="512" Width="512" Margin="32,0,0,0"/>
-            <StackPanel Width="200" Height="512">
-                <Button Content="Original Image" Click="Original_Button_Click" />
-                <Button Content="Median 15 x 15" Click="Median_Button_Click" Margin="0,8,0,0" />
-                <Button Content="Dilate 5 x 5" Click="Dilate_Button_Click" Margin="0,8,0,0" />
-                <Button Content="Threshold" Click="Threshold_Button_Click" Margin="0,8,0,0" />
-            </StackPanel>
+                <StackPanel Width="200" Height="512">
+                    <Button Content="Original Image" Click="Original_Button_Click" />
+                    <Button Content="Zoom - Fit" Click="ZoomFit_Button_Click" Margin="0,8,0,0" />
+                    <Button Content="Zoom - 1:1" Click="Zoom100_Button_Click" Margin="0,8,0,0" />
+                    <Button Content="Median 5 x 5" Click="Median_Button_Click" Margin="0,8,0,0" />
+                    <Button Content="Dilate 5 x 5" Click="Dilate_Button_Click" Margin="0,8,0,0" />
+                    <Button Content="Threshold" Click="Threshold_Button_Click" Margin="0,8,0,0" />
+                </StackPanel>
+            </DockPanel>
         </DockPanel> 
     </Grid>
 </Window>

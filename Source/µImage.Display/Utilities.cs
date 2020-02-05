@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace µImage.Display
+namespace µ.Display
 {
        public static class InputExtensions
     {

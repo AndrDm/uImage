@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -13,10 +13,10 @@
     <OutputPath>..\..\Build\Debug\</OutputPath>
   </PropertyGroup>
 
- <ItemGroup>
-    <ProjectReference Include="..\µImage.Vision\µImage.Vision.csproj" />
-  </ItemGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ContentWithTargetPath Include="..\..\Libraries\OpenCVSharp\Native\OpenCvSharpExtern.dll ">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

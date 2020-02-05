@@ -4,9 +4,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using µ.Vision;
+using static µ.Vision.µImage;
 //using OpenCvSharp;
 
-namespace µImage.Display
+namespace µ.Display
 {
    
     [TemplatePart(Name = "PART_µImage", Type = typeof(Image))]
@@ -14,7 +16,8 @@ namespace µImage.Display
     [TemplatePart(Name = "PART_µScrollViewer", Type = typeof(Grid))]
     [TemplatePart(Name = "PART_µZoom", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_µInfo", Type = typeof(TextBlock))]
-
+    [TemplatePart(Name = "PART_µPixelInfo", Type = typeof(TextBlock))]
+    
     
     public partial class uImageControl : Control
     {
@@ -23,7 +26,10 @@ namespace µImage.Display
         private ScrollViewer part_µScrollViewer;
         private TextBox part_µZoom;
         private TextBox part_µInfo;
+        private TextBox part_µPixelInfo;
 
+        private WriteableBitmap writeableBitmap;
+        private µ.Vision.µImage µimage;
 
         private Point _previousPanPoint = new Point(0.0, 0.0);
         private bool _mouseDown = false;
@@ -51,6 +57,13 @@ namespace µImage.Display
             part_µImage.Source = bitmap;
         }
 
+        public void ApplyµImage(µImage image)
+        {
+            µimage = image;
+            part_µImage.Width = image.Width;
+            part_µImage.Height = image.Height;
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -65,7 +78,8 @@ namespace µImage.Display
             if (null == part_µZoom) throw new NullReferenceException("Template Part µZoom is not available");
             part_µInfo = GetTemplateChild("PART_µInfo") as TextBox;
             if (null == part_µInfo) throw new NullReferenceException("Template Part µInfo is not available");
-
+            part_µPixelInfo = GetTemplateChild("PART_µPixelInfo") as TextBox;
+            if (null == part_µPixelInfo) throw new NullReferenceException("Template Part µPixelInfo is not available");
 
             part_µImage.LayoutTransform = new ScaleTransform();
             
@@ -106,7 +120,8 @@ namespace µImage.Display
                 part_µScrollViewer.ScrollToVerticalOffset(part_µScrollViewer.VerticalOffset - y_diff);
                 _previousPanPoint = position;
             }
-            ShowMousePosition();            
+            ShowMousePosition();
+            ShowImagePixelValue();            
         }
 
         private void OnµImageControlMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -121,6 +136,29 @@ namespace µImage.Display
             if ((pos.X>=0) && (pos.X < part_µImage.Width) &&(pos.Y>=0) && (pos.Y < part_µImage.Height)){
                 part_µInfo.Text = $"x = {Mouse.GetPosition(part_µImage).X:N0}; y = {Mouse.GetPosition(part_µImage).Y:N0}";
             }
+        }
+
+        private int ShowImagePixelValue()
+		{
+			if (part_µImage == null) return 0;
+
+			int result = 0;
+			if (MousePosition.X < part_µImage.ActualWidth && MousePosition.X >= 0.0 
+                && MousePosition.Y < part_µImage.ActualHeight && MousePosition.Y >= 0.0){
+				result = µ.Vision.µImage.GetPixelValue(µimage, (int)MousePosition.X, (int)MousePosition.Y);
+                if (µimage.imageType == ImageType.U8) part_µPixelInfo.Text = $"8-bit image, {result:N0}";                
+                if (µimage.imageType == ImageType.U16) part_µPixelInfo.Text = $"16-bit image, {result:N0}";                
+			}
+			return result;
+		}
+
+        public void DisplayImage(µImage image)
+        {
+            PixelFormat depth = (ImageType.U16 == image.imageType)?PixelFormats.Gray16:PixelFormats.Gray8;
+            writeableBitmap = new WriteableBitmap(image.Width, image.Height, 96, 96, depth, null);
+            ToWriteableBitmap(image, writeableBitmap);
+            this.ApplyWriteableBitmap(writeableBitmap);
+            this.ApplyµImage(image);
         }
     }
 }
