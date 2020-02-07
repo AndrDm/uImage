@@ -7,7 +7,7 @@
         xmlns:Display="clr-namespace:µ.Display;assembly=µImage.Display"
         x:Class="µ.Viewer.MainWindow"
         mc:Ignorable="d"
-        Title="µImage.Viewer" Loaded="MainWindow_Loaded" Height="600" Width="800">
+        Title="µImage.Viewer" Loaded="MainWindow_Loaded" Height="650" Width="800">
 
     <Grid>
         <DockPanel LastChildFill="True">
@@ -19,6 +19,8 @@
             </MenuItem>
             </Menu>
             <Button DockPanel.Dock="Top" Content="Open File..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Open_Button_Click" />
+            <Slider x:Name = "SliderMin" DockPanel.Dock="Top" ValueChanged="Sliders_ValueChanged" Maximum="255" Value="0" LargeChange="16" SmallChange="16" TickFrequency="16"/>
+            <Slider x:Name = "SliderMax" DockPanel.Dock="Top" ValueChanged="Sliders_ValueChanged" Maximum="255" Value="255" LargeChange="16" SmallChange="16" TickFrequency="16"/>
             <DockPanel LastChildFill="True">
                 <Display:uImageControl DockPanel.Dock="Left"
                                    Name ="MyµImage" 
@@ -32,6 +34,13 @@
                     <Button Content="Median 5 x 5" Click="Median_Button_Click" Margin="0,8,0,0" />
                     <Button Content="Dilate 5 x 5" Click="Dilate_Button_Click" Margin="0,8,0,0" />
                     <Button Content="Threshold" Click="Threshold_Button_Click" Margin="0,8,0,0" />
+                    <ComboBox Name="PalettesList" SelectionChanged="PaletteComboBox_Selected" Margin="0,8,0,0">
+                        <ComboBoxItem IsSelected = "True">Gray</ComboBoxItem>
+                        <ComboBoxItem>Binary</ComboBoxItem>
+                        <ComboBoxItem>Gradient</ComboBoxItem>
+                        <ComboBoxItem>Rainbow</ComboBoxItem>
+                        <ComboBoxItem>Temperature</ComboBoxItem>
+                    </ComboBox>
                 </StackPanel>
             </DockPanel>
         </DockPanel> 

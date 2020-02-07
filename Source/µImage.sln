@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "µImage.Viewer", "µImage.Viewer\µImage.Viewer.csproj", "{E0202706-D62D-48CD-9AE2-6DBE3615E657}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "µImage.Vision", "µImage.Vision\µImage.Vision.csproj", "{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "µImage.Display", "µImage.Display\µImage.Display.csproj", "{B4A73635-46C3-4FE2-930D-1966CB3EC13C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "µImage.Viewer", "µImage.Viewer\µImage.Viewer.csproj", "{E0202706-D62D-48CD-9AE2-6DBE3615E657}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{FB549CF2-D8B4-4A92-9547-DB8DB62891CF}"
 	ProjectSection(SolutionItems) = preProject
@@ -36,6 +38,14 @@ Global
 		{B4A73635-46C3-4FE2-930D-1966CB3EC13C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4A73635-46C3-4FE2-930D-1966CB3EC13C}.Release|x64.ActiveCfg = Release|Any CPU
 		{B4A73635-46C3-4FE2-930D-1966CB3EC13C}.Release|x64.Build.0 = Release|Any CPU
+		{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}.Debug|x64.Build.0 = Debug|Any CPU
+		{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}.Release|x64.ActiveCfg = Release|Any CPU
+		{6EBBE2DC-2CB4-44EB-977E-A4AB8DCD29E9}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

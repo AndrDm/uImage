@@ -1,0 +1,10 @@
+{
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 100,
+    "files.exclude": {
+        "**/.vs": true,
+        "**/.vscode": true,
+        "**/obj": true,
+        "**/µImage.code-workspace":true
+    }   
+}

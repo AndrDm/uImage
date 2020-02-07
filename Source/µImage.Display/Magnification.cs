@@ -13,13 +13,6 @@ namespace µ.Display
             get { return (double)GetValue(MagnificationProperty); }
             set { SetValue(MagnificationProperty, value); }
         }
-
-        public Point MousePosition
-        {
-            get{ return (Point)GetValue(MousePositionProperty); }
-            set{ SetValue(MousePositionProperty, value); }
-        }
-
         
         private static void OnMagnificationChanged(DependencyObject image, DependencyPropertyChangedEventArgs magnification)
         {

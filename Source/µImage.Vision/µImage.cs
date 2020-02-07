@@ -33,6 +33,7 @@ namespace µ.Vision
         Inch = 2,
     }
 
+
     //[Serializable]
     public sealed class µImage  // : IDisposable, ISerializable ToDo: later
     {
@@ -114,55 +115,6 @@ namespace µ.Vision
             destination._image = new OpenCvSharp.Mat(fileName, OpenCvSharp.ImreadModes.AnyDepth);
         }
 
-        public static void ToWriteableBitmap(µImage source, WriteableBitmap dst)
-        {
-            OpenCvSharp.Mat src = source._image;
-
-            if (src == null) throw new ArgumentNullException(nameof(src));
-            if (dst == null) throw new ArgumentNullException(nameof(dst));
-            if (src.Width != dst.PixelWidth || src.Height != dst.PixelHeight) throw new ArgumentException("size of src must be equal to size of dst");
-            if (src.Dims > 2) throw new ArgumentException("Mat dimensions must be 2");
-            int w = src.Width;
-            int h = src.Height;
-            int bpp = dst.Format.BitsPerPixel;
-            //int channels = GetOptimumChannels(dst.Format);
-
-            int channels = 1; //single channel only - just for test
-            if (src.Channels() != channels) { throw new ArgumentException("channels of dst != channels of PixelFormat", nameof(dst)); }
-
-            bool submat = src.IsSubmatrix();
-            bool continuous = src.IsContinuous();
-
-            unsafe{
-                byte* pSrc = (byte*)(src.Data);
-                int sstep = (int)src.Step();
-                //1 bit bpp completely removed - I haven't plan to support such images. The 8 bit will be used instead.
-                // Copy            
-                if (!submat && continuous){
-                    long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
-                    if (imageSize < 0) throw new OpenCvSharp.OpenCvSharpException("The mat has invalid data pointer");
-                    if (imageSize > int.MaxValue) throw new OpenCvSharp.OpenCvSharpException("Too big mat data");
-                    dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, sstep);
-                    return;
-                }
-                // row by row copy if not continuous
-                try{
-                    dst.Lock();
-                    dst.AddDirtyRect(new Int32Rect(0, 0, dst.PixelWidth, dst.PixelHeight));
-                    int dstep = dst.BackBufferStride;
-                    byte* pDst = (byte*)dst.BackBuffer;
-                    for (int y = 0; y < h; y++){
-                        long offsetSrc = (y * sstep);
-                        long offsetDst = (y * dstep);
-                        OpenCvSharp.Util.MemoryHelper.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * channels);
-                    }
-                }
-                finally{
-                    dst.Unlock();
-                }
-            }
-        }
-
         public static Int32 GetPixelValue(µImage image, Int32 column, Int32 row)
         {
             if (image.imageType == ImageType.U8){
@@ -183,6 +135,20 @@ namespace µ.Vision
             OpenCvSharp.Cv2.CopyTo(source._image, destination._image);
         }
 
+        public static double µGetMax(µImage source)
+        {
+            double min, max;
+            OpenCvSharp.Cv2.MinMaxLoc(source._image,  out min, out max);
+            return max;
+        }
+
+        public static double µGetMin(µImage source)
+        {
+            double min, max;
+            OpenCvSharp.Cv2.MinMaxLoc(source._image,  out min, out max);
+            return min;
+        }
+
         public static void Median_Demo(µImage source, µImage destination)
         {
            OpenCvSharp.Cv2.MedianBlur(source._image, destination._image, 5);
@@ -199,6 +165,8 @@ namespace µ.Vision
 
             OpenCvSharp.Cv2.Dilate(source._image, destination._image, kernel);
         }
+
+
 
         public static void Threshold_Demo(µImage source, µImage destination)
         {

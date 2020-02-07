@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -12,11 +13,14 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <OutputPath>..\..\Build\Debug\</OutputPath>
   </PropertyGroup>
+ 
+   <ItemGroup>
+    <ContentWithTargetPath Include="..\µImage.DLL\x64\Release\µImage.Unmanaged.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>µImage.Unmanaged.dll</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  
   <ItemGroup>
     <ContentWithTargetPath Include="..\..\Libraries\OpenCVSharp\Native\OpenCvSharpExtern.dll ">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

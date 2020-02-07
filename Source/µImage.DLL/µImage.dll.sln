@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "µImage.dll", "µImage.dll\µImage.vcxproj", "{4114FA9E-4BEA-438C-9FB1-C7F9FCAB8FFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4114FA9E-4BEA-438C-9FB1-C7F9FCAB8FFE}.Debug|x64.ActiveCfg = Release|x64
+		{4114FA9E-4BEA-438C-9FB1-C7F9FCAB8FFE}.Debug|x64.Build.0 = Release|x64
+		{4114FA9E-4BEA-438C-9FB1-C7F9FCAB8FFE}.Release|x64.ActiveCfg = Release|x64
+		{4114FA9E-4BEA-438C-9FB1-C7F9FCAB8FFE}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1AF04800-7546-4DF1-92F9-C8E65F9AB0E0}
+	EndGlobalSection
+EndGlobal

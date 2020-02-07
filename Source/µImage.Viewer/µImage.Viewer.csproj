@@ -23,8 +23,6 @@
     <ProjectReference Include="..\µImage.Vision\µImage.Vision.csproj" />
   </ItemGroup>
 
-  
-  
   <ItemGroup>
     <Resource Include="..\..\Images\Zippo.jpg" />
   </ItemGroup>

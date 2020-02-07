@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -15,6 +16,13 @@
 
  <ItemGroup>
     <ProjectReference Include="..\µImage.Vision\µImage.Vision.csproj" />
+  </ItemGroup>
+
+   <ItemGroup>
+    <ContentWithTargetPath Include="..\µImage.DLL\x64\Release\µImage.Unmanaged.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>µImage.Unmanaged.dll</TargetPath>
+    </ContentWithTargetPath>
   </ItemGroup>
 
   <ItemGroup>
