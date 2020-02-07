@@ -15,6 +15,9 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 >dotnet run µImage.Viewer.csproj
 ````
 
+v.1.6.0.10 (05-FEB-2020)
+Pixel Info, Zoom to Fit, Open File (8 and 16 bit grays)
+  
 v.1.5.0.9 (29-JAN-2020)
 Pan functionality was added to the Display Control
 
