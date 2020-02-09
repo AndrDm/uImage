@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:µ.Viewer"
         xmlns:Display="clr-namespace:µ.Display;assembly=µImage.Display"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         x:Class="µ.Viewer.MainWindow"
         mc:Ignorable="d"
-        Title="µImage.Viewer" Loaded="MainWindow_Loaded" Height="650" Width="800">
+        Title="µImage.Viewer" Loaded="MainWindow_Loaded" Height="650" Width="1000">
 
     <Grid>
         <DockPanel LastChildFill="True">
@@ -27,7 +28,7 @@
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center" 
                                    Height="512" Width="512" Margin="32,0,0,0"/>
-                <StackPanel Width="200" Height="512">
+                <StackPanel Width="400" Height="512">
                     <Button Content="Original Image" Click="Original_Button_Click" />
                     <Button Content="Zoom - Fit" Click="ZoomFit_Button_Click" Margin="0,8,0,0" />
                     <Button Content="Zoom - 1:1" Click="Zoom100_Button_Click" Margin="0,8,0,0" />
@@ -41,6 +42,15 @@
                         <ComboBoxItem>Rainbow</ComboBoxItem>
                         <ComboBoxItem>Temperature</ComboBoxItem>
                     </ComboBox>
+                    <lvc:CartesianChart Name="mySeries" Height = "256" Width = "400" Series="{Binding SeriesCollection}" 
+                    LegendLocation="Top" DisableAnimations="True" >
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Bins" ></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Counts"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
                 </StackPanel>
             </DockPanel>
         </DockPanel> 

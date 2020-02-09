@@ -44,6 +44,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ContentWithTargetPath Include="..\..\Libraries\LiveCharts\LiveCharts.dll ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>LiveCharts.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="..\..\Libraries\LiveCharts\LiveCharts.Wpf.dll ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>LiveCharts.Wpf.dll</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="LiveCharts">
+      <HintPath>..\..\Libraries\LiveCharts\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.WPF">
+      <HintPath>..\..\Libraries\LiveCharts\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+  <ItemGroup>
     <None Update="Zippo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>Zippo.jpg</TargetPath>

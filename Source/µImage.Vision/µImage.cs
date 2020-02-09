@@ -125,7 +125,6 @@ namespace µ.Vision
             }
             
             return -1; //unsupported type exception will be better
-
         }
         public static void µCopy(µImage source, µImage destination)
         {
@@ -166,13 +165,23 @@ namespace µ.Vision
             OpenCvSharp.Cv2.Dilate(source._image, destination._image, kernel);
         }
 
-
-
         public static void Threshold_Demo(µImage source, µImage destination)
         {
-            OpenCvSharp.Cv2.Threshold(source._image, destination._image, 100, 255, OpenCvSharp.ThresholdTypes.Binary);
+            double min, max;
+            OpenCvSharp.Cv2.MinMaxLoc(source._image,  out min, out max);
+            OpenCvSharp.Cv2.Threshold(source._image, destination._image, (max-min)/2, max, OpenCvSharp.ThresholdTypes.Binary);
         }
 
-    }
-}
+        public static void µHistogram(µImage source, double[] hist_array)
+        {
+            Mat hist = new Mat();
+            int[] hdims = {256}; // Histogram size - currently 256 bins only
+            double min, max;
+            OpenCvSharp.Cv2.MinMaxLoc(source._image,  out min, out max);
+            Rangef[] ranges = { new Rangef((float)min, (float)max+1), }; // min/max 
+            OpenCvSharp.Cv2.CalcHist(new Mat[]{source._image}, new int[]{0}, null, hist, 1, hdims, ranges);
+            for (int i = 0; i < hdims[0]; ++i) hist_array[i] = hist.Get<float>(i);
 
+        }
+    } //class µImage
+} //namespace µ.Vision

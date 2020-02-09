@@ -13,6 +13,9 @@ using System.Windows.Controls;
 using µ.Vision;
 using µ.Display;
 using static µ.Vision.µImage;
+using LiveCharts;
+using LiveCharts.Wpf;
+
 
 namespace µ.Viewer
 {
@@ -25,7 +28,7 @@ namespace µ.Viewer
 
         public MainWindow()
         {
-            InitializeComponent();           
+            InitializeComponent();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -35,6 +38,7 @@ namespace µ.Viewer
             µReadFile(µsrc, "Zippo.jpg");
             µCopy(µsrc, µdst);
             MyµImage.DisplayImage(µsrc);
+            DisplayHistogram(µsrc);
         }
 	
         private void menuOpen_Click(object sender, RoutedEventArgs e)
@@ -55,14 +59,14 @@ namespace µ.Viewer
                 }                
                 MyµImage.SetDisplayMappingData((int)µGetMin(µdst), (int)µGetMax(µdst), µ.Display.DisplayMappingOption.Default);
                 MyµImage.DisplayImage(µdst); 
-                MyµImage.PerformZoomToFit();      
-            }
+                MyµImage.PerformZoomToFit();
+                DisplayHistogram(µdst);            }
         }
         private void Original_Button_Click(object sender, RoutedEventArgs e)
         {
             µCopy(µsrc, µdst);
             MyµImage.DisplayImage(µdst);
-        }
+            DisplayHistogram(µdst);        }
 
         private void ZoomFit_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -77,18 +81,21 @@ namespace µ.Viewer
         {
             Median_Demo(µsrc, µdst);
             MyµImage.DisplayImage(µdst);
+            DisplayHistogram(µdst);
         }
 
         private void Dilate_Button_Click(object sender, RoutedEventArgs e)
         {
             Dilate_Demo(µsrc, µdst);
             MyµImage.DisplayImage(µdst);
+            DisplayHistogram(µdst);
         }
 
         private void Threshold_Button_Click(object sender, RoutedEventArgs e)
         {
             Threshold_Demo(µsrc, µdst);
             MyµImage.DisplayImage(µdst);
+            DisplayHistogram(µdst);
         }
 
         private async void Sliders_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -121,6 +128,27 @@ namespace µ.Viewer
                 case 3: MyµImage.DisplayImage(µdst, PaletteType.Rainbow); break;
                 case 4: MyµImage.DisplayImage(µdst, PaletteType.Temperature); break;
             }
+        }
+
+        public SeriesCollection SeriesCollection { get; set; }
+        private void DisplayHistogram(µImage image)
+        {
+            if(null == image) return;
+
+            double[] hist = new double[256]; //Currently 256 bins only ToDo: make flexible
+
+            µHistogram(image, hist);
+        
+            DataContext = null;
+            SeriesCollection = new SeriesCollection{
+                new ColumnSeries{
+                    Title = "Histogram",
+                    Values = new ChartValues<double>(hist),
+					MaxColumnWidth = double.PositiveInfinity,
+					ColumnPadding = 0
+                }
+            };
+            DataContext = this;
         }
     }
 }
