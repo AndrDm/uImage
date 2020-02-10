@@ -18,14 +18,11 @@
     <ProjectReference Include="..\µImage.Vision\µImage.Vision.csproj" />
   </ItemGroup>
 
-   <ItemGroup>
-    <ContentWithTargetPath Include="..\µImage.DLL\x64\Release\µImage.Unmanaged.dll">
+  <ItemGroup>
+    <ContentWithTargetPath Include="..\..\Libraries\µImage\µImage.Unmanaged.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>µImage.Unmanaged.dll</TargetPath>
     </ContentWithTargetPath>
-  </ItemGroup>
-
-  <ItemGroup>
     <ContentWithTargetPath Include="..\..\Libraries\OpenCVSharp\Native\OpenCvSharpExtern.dll ">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>OpenCvSharpExtern.dll</TargetPath>

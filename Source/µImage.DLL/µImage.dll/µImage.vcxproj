@@ -81,6 +81,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\..\Libraries\µImage\$(TargetName)$(TargetExt)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
