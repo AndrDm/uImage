@@ -14,6 +14,9 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 ````console
 >dotnet run µImage.Viewer.csproj
 ````
+v.1.8.0.12 (09-FEB-2020)
+Histogram added (with LiveCharts.Wpf). Currently 256 bins only.
+
 v.1.7.0.11 (07-FEB-2020)
 Mapping 16 to 8 bit added + Color Palettes 
 
