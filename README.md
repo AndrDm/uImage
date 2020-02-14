@@ -14,6 +14,9 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 ````console
 >dotnet run µImage.Viewer.csproj
 ````
+v.1.9.0.13 (14-FEB-2020)
+Rubber Line ROI added, tools switch between Pan and Line
+
 v.1.8.0.12 (09-FEB-2020)
 Histogram added (with LiveCharts.Wpf). Currently 256 bins only.
 
