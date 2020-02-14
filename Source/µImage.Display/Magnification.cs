@@ -27,6 +27,13 @@ namespace µ.Display
                 RenderOptions.SetBitmapScalingMode(image.part_µImage, BitmapScalingMode.HighQuality); //ToDo: depends on zoom or external settings
                 image.part_µZoom.Text = $"{magnificationValue*100:N0}%";
             }
+            if (image.part_µROI != null)
+			{
+				ScaleTransform obj2 = (ScaleTransform)image.part_µROI.LayoutTransform;
+				obj2.ScaleX = magnificationValue;
+				obj2.ScaleY = magnificationValue;
+			}
+
         }
 
         private void CenterViewerAroundMouse(Point center)

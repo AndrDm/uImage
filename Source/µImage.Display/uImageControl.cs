@@ -5,9 +5,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
+using System.Collections;
+using System.Collections.Generic;
+using System.Windows.Data;
 using µ.Vision;
 using static µ.Vision.µImage;
 //using OpenCvSharp;
+using Microsoft.Win32;
+using System.Collections.ObjectModel;
+using System.Linq;
+
 
 namespace µ.Display
 {
@@ -24,6 +31,8 @@ namespace µ.Display
     [TemplatePart(Name = "PART_µZoom", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_µInfo", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_µPixelInfo", Type = typeof(TextBlock))]
+    [TemplatePart(Name = "PART_µROI", Type = typeof(ItemsControl))]
+    
     public partial class uImageControl : Control
     {
         //All parts here
@@ -33,6 +42,7 @@ namespace µ.Display
         private TextBox part_µZoom;
         private TextBox part_µInfo;
         private TextBox part_µPixelInfo;
+        private ItemsControl part_µROI;
 
         private µ.Vision.µImage µimage;
         private WriteableBitmap writeableBitmap;
@@ -47,6 +57,7 @@ namespace µ.Display
             set{ SetValue(MousePositionProperty, value); }
         }
 
+        public int Test;
 	    public struct DisplayMapping
 	    {
 		    public DisplayMappingOption displayMappingOption;
@@ -60,6 +71,15 @@ namespace µ.Display
         public static readonly DependencyProperty MagnificationProperty;
         public static readonly DependencyProperty PaletteProperty;
 
+        private static readonly DependencyPropertyKey ROIListPropertyKey;
+		public static readonly DependencyProperty ROIListProperty;
+
+		public ObservableCollection<ROI> ROIList
+		{
+			get{ return (ObservableCollection<ROI>)GetValue(ROIListProperty); }
+			protected set{ SetValue(ROIListPropertyKey, value); }
+		}
+
         static uImageControl()
         {
             MagnificationProperty = DependencyProperty.Register("Magnification", typeof(double), typeof(uImageControl), 
@@ -68,8 +88,20 @@ namespace µ.Display
                 new PropertyMetadata(new Point(0.0, 0.0)));
             PaletteProperty = DependencyProperty.Register("Palette", typeof(PaletteType), typeof(uImageControl), 
                 new PropertyMetadata(PaletteType.Default));
+			ROIListPropertyKey = DependencyProperty.RegisterReadOnly("ROIList", 
+                typeof(ObservableCollection<ROI>), typeof(uImageControl), 
+                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+			ROIListProperty = ROIListPropertyKey.DependencyProperty;
+
+            ToolRegisterProperty();    
+
 
             DefaultStyleKeyProperty.OverrideMetadata(typeof(uImageControl), new FrameworkPropertyMetadata(typeof(uImageControl)));
+        }
+
+        public uImageControl()
+        {
+			ROIList= new ObservableCollection<ROI>();
         }
 
         public void ApplyBitmap(BitmapImage bitmap)
@@ -105,8 +137,11 @@ namespace µ.Display
             if (null == part_µInfo) throw new NullReferenceException("Template Part µInfo is not available");
             part_µPixelInfo = GetTemplateChild("PART_µPixelInfo") as TextBox;
             if (null == part_µPixelInfo) throw new NullReferenceException("Template Part µPixelInfo is not available");
+            part_µROI = GetTemplateChild("PART_µROI") as ItemsControl;
+            if (null == part_µROI) throw new NullReferenceException("Template Part µROI is not available");
 
             part_µImage.LayoutTransform = new ScaleTransform();
+            part_µROI.LayoutTransform = new ScaleTransform();
             
             part_µMouseHandler.MouseWheel += OnµImageControlMouseWheel;
             part_µMouseHandler.MouseLeftButtonDown += OnµImageControlMouseLeftButtonDown;
@@ -129,9 +164,19 @@ namespace µ.Display
 
         private void OnµImageControlMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _previousPanPoint = Mouse.GetPosition(part_µScrollViewer);
-            part_µMouseHandler.CaptureMouse();
-            _mouseDown = true;
+            switch (SelectedTool){
+				case Tool.Pan:
+                case Tool.None: //none als pan
+                    _previousPanPoint = Mouse.GetPosition(part_µScrollViewer);
+                    part_µMouseHandler.CaptureMouse();
+                    _mouseDown = true;
+					break;
+				case Tool.ROILine:
+                    ROIList.Clear();
+					StartDrawingLineROI();
+					break;
+            }
+            
         }
 
         private void OnµImageControlMouseMove(object sender, MouseEventArgs e)

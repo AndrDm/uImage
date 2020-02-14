@@ -150,5 +150,14 @@ namespace µ.Viewer
             };
             DataContext = this;
         }
+
+        private void Pan_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MyµImage.SelectedTool = Tool.Pan;
+        }
+        private void Line_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MyµImage.SelectedTool = Tool.ROILine;
+        }
     }
 }

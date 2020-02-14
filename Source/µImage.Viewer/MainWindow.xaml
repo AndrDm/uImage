@@ -19,7 +19,11 @@
                 <MenuItem Header="_Quit" Click="menuQuit_Click" />
             </MenuItem>
             </Menu>
-            <Button DockPanel.Dock="Top" Content="Open File..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Open_Button_Click" />
+            <DockPanel DockPanel.Dock="Top">
+                <Button DockPanel.Dock="Left" Content="Open File..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Open_Button_Click" />
+                <Button Content="Pan..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Pan_Button_Click" />
+                <Button Content="Line..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Line_Button_Click" />
+            </DockPanel>
             <Slider x:Name = "SliderMin" DockPanel.Dock="Top" ValueChanged="Sliders_ValueChanged" Maximum="255" Value="0" LargeChange="16" SmallChange="16" TickFrequency="16"/>
             <Slider x:Name = "SliderMax" DockPanel.Dock="Top" ValueChanged="Sliders_ValueChanged" Maximum="255" Value="255" LargeChange="16" SmallChange="16" TickFrequency="16"/>
             <DockPanel LastChildFill="True">
