@@ -1,20 +1,19 @@
 ﻿using System.Windows;
 using System;
-using System.Diagnostics;
-using System.IO;
 using Microsoft.Win32;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Drawing;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Controls;
+
 using µ.Vision;
 using µ.Display;
 using static µ.Vision.µImage;
+using µ.Core;
+using static µ.Core.µCore;
+
 using LiveCharts;
 using LiveCharts.Wpf;
+using InteractiveDataDisplay.WPF;
 
 
 namespace µ.Viewer
@@ -40,7 +39,30 @@ namespace µ.Viewer
             MyµImage.DisplayImage(µsrc);
             DisplayHistogram(µsrc);
         }
-	
+	    private async void OnROIValueChanged(object sender, ROIValueChangedEventArgs e)
+        {
+            System.Windows.Point start, end;
+            if (0 == e.ROI.contours.Count) return; //this happened at start of drawing
+            if (2 != e.ROI.contours[0].points.Count) return; //must be 2 points for line
+            start = e.ROI.contours[0].points[0];
+            end = e.ROI.contours[0].points[1];
+
+            await Task.Run(() => ShowLineProfile(µdst, start, end));
+        }
+
+        internal void ShowLineProfile(µImage image, Point start, Point end)
+        {
+            double Average; 
+            List<double> Profile;
+            
+            µLineProfile(µdst, start, end, out Profile, out Average);
+			
+            var x = Enumerable.Range(0, Profile.Count).Select(i => i).ToArray();
+			var y = Profile.ToArray();
+            MyµImage.Dispatcher.Invoke( () => linegraph.Plot(x,y) );    
+            System.Threading.Thread.Sleep(1);
+        }
+
         private void menuOpen_Click(object sender, RoutedEventArgs e)
         {
             Open_Button_Click(sender, e);
@@ -127,6 +149,15 @@ namespace µ.Viewer
                 case 2: MyµImage.DisplayImage(µdst, PaletteType.Gradient); break;
                 case 3: MyµImage.DisplayImage(µdst, PaletteType.Rainbow); break;
                 case 4: MyµImage.DisplayImage(µdst, PaletteType.Temperature); break;
+                case 5: MyµImage.DisplayImage(µdst, PaletteType.InvertedGray); break;
+                case 6: MyµImage.DisplayImage(µdst, PaletteType.Gamma_1_1); break;
+                case 7: MyµImage.DisplayImage(µdst, PaletteType.Gamma_1_3); break;
+                case 8: MyµImage.DisplayImage(µdst, PaletteType.Gamma_1_5); break;
+                case 9: MyµImage.DisplayImage(µdst, PaletteType.Gamma_1_7); break;
+                case 10: MyµImage.DisplayImage(µdst, PaletteType.Gamma_1_9); break;
+                case 11: MyµImage.DisplayImage(µdst, PaletteType.Gamma_2_1); break;
+                case 12: MyµImage.DisplayImage(µdst, PaletteType.Gamma_2_3); break;
+                case 13: MyµImage.DisplayImage(µdst, PaletteType.Gamma_2_5); break;
             }
         }
 

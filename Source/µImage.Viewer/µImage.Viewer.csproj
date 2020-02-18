@@ -65,6 +65,27 @@
 
 
   <ItemGroup>
+    <ContentWithTargetPath Include="..\..\Libraries\InteractiveDataDisplay\InteractiveDataDisplay.WPF.dll ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>InteractiveDataDisplay.WPF.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="..\..\Libraries\SystemReactive\System.Reactive.dll ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>System.Reactive.dll</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="InteractiveDataDisplay.WPF">
+      <HintPath>..\..\Libraries\InteractiveDataDisplay\InteractiveDataDisplay.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>..\..\Libraries\SystemReactive\System.Reactive.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+  <ItemGroup>
     <None Update="Zippo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>Zippo.jpg</TargetPath>

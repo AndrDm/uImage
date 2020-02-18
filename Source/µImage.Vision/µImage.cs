@@ -1,21 +1,7 @@
 using System;
 using System.Windows;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System.Security;
-using System.Security.Permissions;
-using System.Globalization;
-using OpenCvSharp;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace µ.Vision 
 {
@@ -37,8 +23,6 @@ namespace µ.Vision
     //[Serializable]
     public sealed class µImage  // : IDisposable, ISerializable ToDo: later
     {
-        //[EditorBrowsable(EditorBrowsableState.Never)]
-        //public IntPtr _image = IntPtr.Zero;
         public OpenCvSharp.Mat _image = null;
 
         /// <summary>
@@ -174,14 +158,68 @@ namespace µ.Vision
 
         public static void µHistogram(µImage source, double[] hist_array)
         {
-            Mat hist = new Mat();
+            OpenCvSharp.Mat hist = new OpenCvSharp.Mat();
             int[] hdims = {256}; // Histogram size - currently 256 bins only
             double min, max;
             OpenCvSharp.Cv2.MinMaxLoc(source._image,  out min, out max);
-            Rangef[] ranges = { new Rangef((float)min, (float)max+1), }; // min/max 
-            OpenCvSharp.Cv2.CalcHist(new Mat[]{source._image}, new int[]{0}, null, hist, 1, hdims, ranges);
+            OpenCvSharp.Rangef[] ranges = { new OpenCvSharp.Rangef((float)min, (float)max+1), }; // min/max 
+            OpenCvSharp.Cv2.CalcHist(new OpenCvSharp.Mat[]{source._image}, new int[]{0}, null, hist, 1, hdims, ranges);
             for (int i = 0; i < hdims[0]; ++i) hist_array[i] = hist.Get<float>(i);
-
         }
+
+        //==========================================================================================
+        /// <summary>
+        /// Computes the profile of a line of pixels.
+        ///This method returns other information such as pixel averages.
+        /// </summary>
+        /// <param name="source">
+        /// The image on which the method computes the line profile.
+        /// </param>
+        /// <param name="pt1">
+        /// The start point the line along which the method computes the profile.
+        /// </param>
+        /// <param name="pt2">
+        /// The end point the line along which the method computes the profile.
+        /// </param>
+        /// <returns>
+        /// void
+        /// </returns>
+        /// <remarks>
+        /// Use this method with U8 and U16 images.
+        /// </remarks>
+        public static void µLineProfile(µImage source, Point pt1, Point pt2, out List<double> Profile, out double Average)
+        {
+            // You can pass connectivity as constructor argument. Default is 8.
+            OpenCvSharp.Point pt1cv;
+            OpenCvSharp.Point pt2cv;
+            pt1cv.X = (int)pt1.X; pt1cv.Y = (int)pt1.Y; 
+            pt2cv.X = (int)pt2.X; pt2cv.Y = (int)pt2.Y; 
+            int sum = 0;
+            int count = 0;
+
+            List<double> profile = new List<double>();
+            
+            switch (source.imageType){
+                case ImageType.U8:
+                    foreach (var lip in new OpenCvSharp.LineIterator(source._image, pt1cv, pt2cv)) {
+                        byte value = lip.GetValue<byte>();
+                        profile.Add(value);
+                        sum += value; count++;
+                    }
+                break;
+                case ImageType.U16:
+                    foreach (var lip in new OpenCvSharp.LineIterator(source._image, pt1cv, pt2cv)) {
+                        ushort value = lip.GetValue<ushort>();
+                        profile.Add(value);
+                        sum += value; count++;
+                    }
+                break;
+            }
+            
+            Average = (double)sum / count;
+            Profile = profile;
+        }//µLineProfile (based on OpenCvSharp.LineIterator)
+                    
+            
     } //class µImage
 } //namespace µ.Vision

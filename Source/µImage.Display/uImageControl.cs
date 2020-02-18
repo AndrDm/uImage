@@ -92,6 +92,10 @@ namespace µ.Display
                 typeof(ObservableCollection<ROI>), typeof(uImageControl), 
                 new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 			ROIListProperty = ROIListPropertyKey.DependencyProperty;
+			
+            GetLastEventDataPropertyKey = DependencyProperty.RegisterReadOnly("GetLastEventData", 
+                typeof(ROIDescriptor.LastEventData), typeof(uImageControl), new PropertyMetadata(null, OnGetLastEventDataChanged));
+			GetLastEventDataProperty = GetLastEventDataPropertyKey.DependencyProperty;
 
             ToolRegisterProperty();    
 
