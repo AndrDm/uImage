@@ -14,6 +14,9 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 ````console
 >dotnet run µImage.Viewer.csproj
 ````
+v.1.10.0.14 (18-FEB-2020)
+Line Profile and new Palettes (Inverted gray and Gammas) added.
+
 v.1.9.0.13 (14-FEB-2020)
 Rubber Line ROI added, tools switch between Pan and Line
 
