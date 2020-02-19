@@ -36,6 +36,7 @@
                 <Button DockPanel.Dock="Left" Content="Open File..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Open_Button_Click" />
                 <Button Content="Pan..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Pan_Button_Click" />
                 <Button Content="Line Profile..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Line_Button_Click" />
+                <Button Content="Window..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Window_Button_Click" />
             </DockPanel>
             <DockPanel LastChildFill="True">
                 <StackPanel Width="550" Height="650"  DockPanel.Dock="Left" Margin="32,32,0,0">

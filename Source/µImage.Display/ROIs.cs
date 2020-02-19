@@ -5,94 +5,14 @@ using System.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using µ.Vision;
+using µ.Structures;
 
 namespace µ.Display
 {
-	public enum ROItype{
-		None,
-		Line
-	}
 
-	public enum EventType
-		{
-			NoEvent,
-			Click,
-			Draw,
-		}
 
-		public enum EventTool
-		{
-			None,
-			Cursor,
-			ROI,
-			Pan
-		}
-
-	public class ROIDescriptor{
-		public class Contour{
-			public ROItype roiType;
-			public List<Point> points;
-			public Contour()
-			{
-				points = new List<Point>();
-			}
-
-			public bool IsChanged(Contour other)
-			{
-				if (other != null &&  roiType.Equals(other.roiType)){
-					return points.SequenceEqual(other.points);
-				}
-				return false;
-			}
-		}
-		
-		public class LastEventData
-		{
-			public EventType type;
-			public EventTool tool;
-			public ROItype roi;
-			public List<Point> coordinates;
-			public List<double> otherParameters;
-			public bool IsChanged(LastEventData other)
-			{
-				if (other != null && type.Equals(other.type) && tool.Equals(other.tool) && coordinates.SequenceEqual(other.coordinates)){
-					return otherParameters.SequenceEqual(other.otherParameters);
-				}
-				return false;
-			}
-		}
-
-		public class LastEventArgs : EventArgs
-		{
-			public LastEventData data;
-
-			public LastEventArgs(LastEventData data)
-			{
-				this.data = data;
-			}
-		}
-
-		public List<double> boundingBox;
-
-		public List<Contour> contours;
-
-		public ROIDescriptor()
-		{
-			boundingBox = new List<double>();
-			contours = new List<Contour>();
-		}
-
-  		public bool IsChanged(ROIDescriptor other)
-  		{
-  			if (other == null) return false;
-  			if (boundingBox != null && !boundingBox.SequenceEqual(other.boundingBox)) return false;
-  			if (boundingBox == null && other.boundingBox != null) return false;
-  			if (contours.Count != other.contours.Count) return false;
-  			for (int i = 0; i < contours.Count; i++) if (!contours[i].IsChanged(other.contours[i])) return false;
-  			return true;
-  		}
-	}// class ROIDescriptor
-
+	
 	public abstract class ROI : ItemsControl
 	{
 		public enum State{
@@ -206,6 +126,103 @@ namespace µ.Display
 		}
     }//class ROILine : ROI
 
+	public class ROIRect : ROI
+	{
+
+		public static readonly DependencyProperty 
+		TopLeftProperty = DependencyProperty.Register("TopLeft", 
+		typeof(Point), typeof(ROIRect), 
+		new FrameworkPropertyMetadata(new Point(0.0, 0.0), 
+		FrameworkPropertyMetadataOptions.AffectsRender)); //ToDo:OnChanged
+		public static readonly DependencyProperty BottomRightProperty = 
+		DependencyProperty.Register("BottomRight", 
+		typeof(Point), typeof(ROIRect), 
+		new FrameworkPropertyMetadata(new Point(0.0, 0.0), 
+		FrameworkPropertyMetadataOptions.AffectsRender)); //ToDo:OnChanged
+
+		public Point TopLeftPoint{
+			get{return (Point)GetValue(TopLeftProperty);}
+			set{SetValue(TopLeftProperty, value);}
+		}
+
+		public Point BottomRightPoint{
+			get{return (Point)GetValue(BottomRightProperty);}
+			set{SetValue(BottomRightProperty, value);}
+		}
+
+		public ROIRect()
+		{
+			base.MouseLeftButtonDown += OnRectROIMouseLeftButtonDown;
+			base.MouseLeftButtonUp += OnRectROIMouseLeftButtonUp;
+			base.MouseMove += OnRectROIMouseMove;
+		}
+		private void OnRectROIMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			CaptureMouse();
+        }
+
+        private void OnRectROIMouseMove(object sender, MouseEventArgs e)
+		{
+        	if (base.CurrentState == State.DrawingInProgress) {
+				BottomRightPoint = e.GetPosition(this);
+				UpdateLastROIDrawEvent(new ROIDescriptor.LastEventArgs(GetLastDrawEventData()));
+			}
+		}
+
+		private void OnRectROIMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			ReleaseMouseCapture();
+			base.CurrentState = State.Normal;
+		}
+		protected override void OnRender(DrawingContext dc)
+		{
+			base.OnRender(dc);
+			Pen pen = new Pen(Brushes.Red, 2.0); //ToDo: scale with magnification factor!
+			Rect rect;
+
+			rect.X = Math.Min(TopLeftPoint.X, BottomRightPoint.X);
+			rect.Y = Math.Min(TopLeftPoint.Y, BottomRightPoint.Y);
+			rect.Width = Math.Abs(BottomRightPoint.X - TopLeftPoint.X);
+			rect.Height = Math.Abs(BottomRightPoint.Y - TopLeftPoint.Y);
+	
+			dc.DrawRectangle(Brushes.Transparent, pen, rect);
+		}
+
+		public override ROIDescriptor.LastEventData GetLastDrawEventData()
+		{
+			double width = Math.Abs(BottomRightPoint.X - TopLeftPoint.X);
+			double height = Math.Abs(BottomRightPoint.Y - TopLeftPoint.Y);
+			double diagonal = Math.Sqrt(width * width + height * height);
+			return new ROIDescriptor.LastEventData{
+				type = EventType.Draw,
+				tool = EventTool.ROI,
+				roi = ROItype.Rectangle,
+				coordinates = new List<Point>{
+					TopLeftPoint,
+					BottomRightPoint
+				},
+				otherParameters = new List<double>{
+					width,
+					height,
+					diagonal,
+				}
+			};
+		}
+
+		public override ROIDescriptor.Contour GetROIDescriptorContour()
+		{
+			return new ROIDescriptor.Contour{
+				roiType = ROItype.Rectangle,
+				points = new List<Point>{
+					TopLeftPoint,
+					BottomRightPoint
+				}
+			};
+		}
+
+	} //RectROI
+
+
 	public class ROIValueChangedEventArgs : EventArgs
 	{
 		public ROIDescriptor.LastEventData lastEventData;
@@ -237,6 +254,17 @@ namespace µ.Display
 			lineROI.CurrentState = ROI.State.DrawingInProgress;
 			lineROI.LastROIDrawEvent += OnGetLastDrawEventUpdated;
         }
+
+        private void StartDrawingRectROI()
+        {
+			ROIRect rectROI = new ROIRect();
+			ROIList.Add(rectROI);
+			rectROI.TopLeftPoint = rectROI.BottomRightPoint = MousePosition;
+			rectROI.CaptureMouse();
+			rectROI.CurrentState = ROI.State.DrawingInProgress;
+			rectROI.LastROIDrawEvent += OnGetLastDrawEventUpdated;
+        }
+
 
 		//https://docs.microsoft.com/en-us/dotnet/api/system.windows.dependencypropertychangedeventargs?view=netcore-3.1
 		private static void OnGetLastEventDataChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)

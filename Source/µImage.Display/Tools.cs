@@ -13,6 +13,7 @@ namespace µ.Display
 		None,
 		Pan,
 		ROILine,
+		ROIRect
 	}
 
     public partial class uImageControl : Control

@@ -5,10 +5,12 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using µ.Core;
 using µ.Vision;
 using µ.Display;
+using µ.Structures;
+
 using static µ.Vision.µImage;
-using µ.Core;
 using static µ.Core.µCore;
 
 using LiveCharts;
@@ -46,8 +48,14 @@ namespace µ.Viewer
             if (2 != e.ROI.contours[0].points.Count) return; //must be 2 points for line
             start = e.ROI.contours[0].points[0];
             end = e.ROI.contours[0].points[1];
-
-            await Task.Run(() => ShowLineProfile(µdst, start, end));
+            switch (MyµImage.SelectedTool){
+                case Tool.ROILine:
+                    await Task.Run(() => ShowLineProfile(µdst, start, end));
+                break;
+                case Tool.ROIRect:
+                    await Task.Run(() => SetWindow(µdst, start, end));
+                break;                     
+            }
         }
 
         internal void ShowLineProfile(µImage image, Point start, Point end)
@@ -55,11 +63,27 @@ namespace µ.Viewer
             double Average; 
             List<double> Profile;
             
-            µLineProfile(µdst, start, end, out Profile, out Average);
+            µLineProfile(image, start, end, out Profile, out Average);
 			
             var x = Enumerable.Range(0, Profile.Count).Select(i => i).ToArray();
 			var y = Profile.ToArray();
-            MyµImage.Dispatcher.Invoke( () => linegraph.Plot(x,y) );    
+            MyµImage.Dispatcher.Invoke( () => linegraph.Plot(x,y) );
+            MyµImage.Dispatcher.Invoke( () => linegraph.Visibility = Visibility.Visible );
+            System.Threading.Thread.Sleep(1);
+        }
+
+
+        internal void SetWindow(µImage image, Point start, Point end)
+        { 
+            double min, max;
+            
+            µMinMax(image, start, end, out min, out max);
+			µOutputDebugString("min = "+(int)min+"; max = "+(int)max);
+            MyµImage.SetDisplayMappingData(min, max, µ.Display.DisplayMappingOption.GivenRange);
+            MyµImage.Dispatcher.Invoke( () => MyµImage.DisplayImage(µdst) );                
+            MyµImage.Dispatcher.Invoke( () => SliderMin.Value = min );
+            MyµImage.Dispatcher.Invoke( () => SliderMax.Value = max );
+            MyµImage.Dispatcher.Invoke( () => linegraph.Visibility = Visibility.Hidden );            
             System.Threading.Thread.Sleep(1);
         }
 
@@ -190,5 +214,9 @@ namespace µ.Viewer
         {
             MyµImage.SelectedTool = Tool.ROILine;
         }
+        private void Window_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MyµImage.SelectedTool = Tool.ROIRect;
+        }        
     }
 }

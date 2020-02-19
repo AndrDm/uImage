@@ -2,23 +2,15 @@ using System;
 using System.Windows;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using µ.Structures;
+using µ.Core;
+
 
 namespace µ.Vision 
 {
 
-    public enum ImageType 
-    {
-        U8 = 0,
-        U16 = 1,
-    }
-
-       public enum CalibrationUnit
-    {
-        Undefined = 0,
-        Millimeter = 1,
-        Inch = 2,
-    }
-
+   
 
     //[Serializable]
     public sealed class µImage  // : IDisposable, ISerializable ToDo: later
@@ -219,7 +211,30 @@ namespace µ.Vision
             Average = (double)sum / count;
             Profile = profile;
         }//µLineProfile (based on OpenCvSharp.LineIterator)
-                    
+
+        public static void µMinMax(µImage source, Point pt1, Point pt2, out double minVal, out double maxVal)
+        {
+            OpenCvSharp.Point MinLoc, MaxLoc, pt1cv, pt2cv;
+    
+            pt1cv.X = (int)Math.Min(pt1.X, pt2.X);
+            pt2cv.X = (int)Math.Max(pt1.X, pt2.X);
+            pt1cv.Y = (int)Math.Min(pt1.Y, pt2.Y);
+            pt2cv.Y = (int)Math.Max(pt1.Y, pt2.Y);
             
+            //https://stackoverflow.com/questions/18135917/better-ways-to-create-a-rectangular-mask-by-opencv
+            //cv::Mat mask = cv::Mat::zeros(8, 8, CV_8U); // all 0
+            //mask(Rect(2,2,4,4)) = 1;
+            OpenCvSharp.Mat mask = new OpenCvSharp.Mat(source.Width, source.Height, OpenCvSharp.MatType.CV_8U, 0);
+            OpenCvSharp.Cv2.Rectangle(mask, pt1cv, pt2cv, 1, OpenCvSharp.Cv2.FILLED);
+            OpenCvSharp.Cv2.MinMaxLoc(source._image, out minVal, out maxVal, out MinLoc, out MaxLoc, mask);
+            //µCore.µOutputDebugString("ROI: x1="+pt1cv.X+" y1="+pt1cv.Y+" x2="+pt2cv.X+" y2="+pt2cv.Y+" min= "+ minVal+" max="+maxVal+
+            //                            " minlocx="+MinLoc.X+" minLocy="+MinLoc.Y+" maxlocx="+MaxLoc.X+" maxlocy="+MaxLoc.Y);
+        }
+            
+
+        public static void µROItoMask(ROIDescriptor rOI, µImage mask)
+        {
+            return;
+        } 
     } //class µImage
 } //namespace µ.Vision

@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Data;
 using µ.Vision;
+using µ.Structures;
 using static µ.Vision.µImage;
 //using OpenCvSharp;
 using Microsoft.Win32;
@@ -179,9 +180,12 @@ namespace µ.Display
                     ROIList.Clear();
 					StartDrawingLineROI();
 					break;
-            }
-            
-        }
+                case Tool.ROIRect:    
+                    ROIList.Clear();
+					StartDrawingRectROI();
+					break;
+            }            
+        }//OnµImageControlMouseLeftButtonDown - new ROI types add here
 
         private void OnµImageControlMouseMove(object sender, MouseEventArgs e)
         {

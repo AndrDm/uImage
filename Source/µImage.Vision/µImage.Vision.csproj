@@ -15,6 +15,12 @@
   </PropertyGroup>
  
   <ItemGroup>
+    <ProjectReference Include="..\µImage.Core\µImage.Core.csproj" />
+    <ProjectReference Include="..\µImage.Structures\µImage.Structures.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
     <ContentWithTargetPath Include="..\..\Libraries\µImage\µImage.Unmanaged.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>µImage.Unmanaged.dll</TargetPath>

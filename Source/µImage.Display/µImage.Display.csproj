@@ -14,11 +14,12 @@
     <OutputPath>..\..\Build\Debug\</OutputPath>
   </PropertyGroup>
 
- <ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\µImage.Core\µImage.Core.csproj" />
   </ItemGroup>
 
- <ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\µImage.Structures\µImage.Structures.csproj" />
     <ProjectReference Include="..\µImage.Vision\µImage.Vision.csproj" />
   </ItemGroup>
 
