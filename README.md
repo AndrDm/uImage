@@ -14,6 +14,9 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 ````console
 >dotnet run µImage.Viewer.csproj
 ````
+v.1.11.0.15 (19-FEB-2020)
+Rectangular ROI added to display and Window function added to viewer.
+
 v.1.10.0.14 (18-FEB-2020)
 Line Profile and new Palettes (Inverted gray and Gammas) added.
 
