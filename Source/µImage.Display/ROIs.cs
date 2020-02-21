@@ -222,6 +222,107 @@ namespace µ.Display
 
 	} //RectROI
 
+public class ROIOval : ROI
+	{
+
+		public static readonly DependencyProperty 
+		TopLeftProperty = DependencyProperty.Register("TopLeft", 
+		typeof(Point), typeof(ROIOval), 
+		new FrameworkPropertyMetadata(new Point(0.0, 0.0), 
+		FrameworkPropertyMetadataOptions.AffectsRender)); //ToDo:OnChanged
+		public static readonly DependencyProperty BottomRightProperty = 
+		DependencyProperty.Register("BottomRight", 
+		typeof(Point), typeof(ROIOval), 
+		new FrameworkPropertyMetadata(new Point(0.0, 0.0), 
+		FrameworkPropertyMetadataOptions.AffectsRender)); //ToDo:OnChanged
+
+		public Point TopLeftPoint{
+			get{return (Point)GetValue(TopLeftProperty);}
+			set{SetValue(TopLeftProperty, value);}
+		}
+
+		public Point BottomRightPoint{
+			get{return (Point)GetValue(BottomRightProperty);}
+			set{SetValue(BottomRightProperty, value);}
+		}
+
+		public ROIOval()
+		{
+			base.MouseLeftButtonDown += OnOvalROIMouseLeftButtonDown;
+			base.MouseLeftButtonUp += OnOvalROIMouseLeftButtonUp;
+			base.MouseMove += OnOvalROIMouseMove;
+		}
+		private void OnOvalROIMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			CaptureMouse();
+        }
+
+        private void OnOvalROIMouseMove(object sender, MouseEventArgs e)
+		{
+        	if (base.CurrentState == State.DrawingInProgress) {
+				BottomRightPoint = e.GetPosition(this);
+				UpdateLastROIDrawEvent(new ROIDescriptor.LastEventArgs(GetLastDrawEventData()));
+			}
+		}
+
+		private void OnOvalROIMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			ReleaseMouseCapture();
+			base.CurrentState = State.Normal;
+		}
+		protected override void OnRender(DrawingContext dc)
+		{
+			base.OnRender(dc);
+			Pen pen = new Pen(Brushes.Red, 2.0); //ToDo: scale with magnification factor!
+			Rect rect;
+			Point center;
+			double radiusX, radiusY;
+
+			rect.X = Math.Min(TopLeftPoint.X, BottomRightPoint.X);
+			rect.Y = Math.Min(TopLeftPoint.Y, BottomRightPoint.Y);
+			center.X = Math.Abs(BottomRightPoint.X - TopLeftPoint.X)/2+Math.Min(TopLeftPoint.X, BottomRightPoint.X);
+			center.Y = Math.Abs(BottomRightPoint.Y - TopLeftPoint.Y)/2+Math.Min(TopLeftPoint.Y, BottomRightPoint.Y);
+			radiusX = Math.Abs(BottomRightPoint.X - TopLeftPoint.X)/2;
+			radiusY = Math.Abs(BottomRightPoint.Y - TopLeftPoint.Y)/2;
+			rect.Height = Math.Abs(BottomRightPoint.Y - TopLeftPoint.Y);
+	
+			//dc.DrawRectangle(Brushes.Transparent, pen, rect);
+			dc.DrawEllipse(Brushes.Transparent, pen, center, radiusX, radiusY);
+		}
+
+		public override ROIDescriptor.LastEventData GetLastDrawEventData()
+		{
+			double width = Math.Abs(BottomRightPoint.X - TopLeftPoint.X);
+			double height = Math.Abs(BottomRightPoint.Y - TopLeftPoint.Y);
+			double diagonal = Math.Sqrt(width * width + height * height);
+			return new ROIDescriptor.LastEventData{
+				type = EventType.Draw,
+				tool = EventTool.ROI,
+				roi = ROItype.Oval,
+				coordinates = new List<Point>{
+					TopLeftPoint,
+					BottomRightPoint
+				},
+				otherParameters = new List<double>{
+					width,
+					height,
+					diagonal,
+				}
+			};
+		}
+
+		public override ROIDescriptor.Contour GetROIDescriptorContour()
+		{
+			return new ROIDescriptor.Contour{
+				roiType = ROItype.Oval,
+				points = new List<Point>{
+					TopLeftPoint,
+					BottomRightPoint
+				}
+			};
+		}
+
+	} //OvalROI
 
 	public class ROIValueChangedEventArgs : EventArgs
 	{
@@ -263,6 +364,16 @@ namespace µ.Display
 			rectROI.CaptureMouse();
 			rectROI.CurrentState = ROI.State.DrawingInProgress;
 			rectROI.LastROIDrawEvent += OnGetLastDrawEventUpdated;
+        }
+
+       private void StartDrawingOvalROI()
+        {
+			ROIOval ovalROI = new ROIOval();
+			ROIList.Add(ovalROI);
+			ovalROI.TopLeftPoint = ovalROI.BottomRightPoint = MousePosition;
+			ovalROI.CaptureMouse();
+			ovalROI.CurrentState = ROI.State.DrawingInProgress;
+			ovalROI.LastROIDrawEvent += OnGetLastDrawEventUpdated;
         }
 
 

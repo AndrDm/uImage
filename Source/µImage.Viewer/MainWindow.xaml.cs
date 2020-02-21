@@ -218,5 +218,9 @@ namespace µ.Viewer
         {
             MyµImage.SelectedTool = Tool.ROIRect;
         }        
+        private void Oval_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MyµImage.SelectedTool = Tool.ROIOval;
+        }        
     }
 }

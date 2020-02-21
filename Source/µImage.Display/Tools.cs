@@ -5,17 +5,10 @@ using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
+using µ.Structures;
 
 namespace µ.Display
 {
-	public enum Tool
-	{
-		None,
-		Pan,
-		ROILine,
-		ROIRect
-	}
-
     public partial class uImageControl : Control
     {
 		public static DependencyProperty SelectedToolProperty;

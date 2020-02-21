@@ -184,6 +184,11 @@ namespace µ.Display
                     ROIList.Clear();
 					StartDrawingRectROI();
 					break;
+                case Tool.ROIOval:
+                    ROIList.Clear();
+					StartDrawingOvalROI();
+					break;
+
             }            
         }//OnµImageControlMouseLeftButtonDown - new ROI types add here
 

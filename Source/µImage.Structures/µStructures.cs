@@ -16,40 +16,45 @@ using System.Linq;
 namespace µ.Structures 
 {
 
- public enum ImageType 
-    {
+	public enum ImageType {
         U8 = 0,
         U16 = 1,
     }
 
-       public enum CalibrationUnit
-    {
+    public enum CalibrationUnit {
         Undefined = 0,
         Millimeter = 1,
         Inch = 2,
     }
 
-public enum ROItype{
+	public enum ROItype{
 		None,
 		Line,
-		Rectangle
+		Rectangle,
+		Oval,
 	}
 
-	public enum EventType
-		{
-			NoEvent,
-			Click,
-			Draw,
-		}
+	public enum Tool
+	{
+		None,
+		Pan,
+		ROILine,
+		ROIRect,
+		ROIOval,
+	}
+	public enum EventType{
+		NoEvent,
+		Click,
+		Draw,
+	}
 
-		public enum EventTool
-		{
-			None,
-			Cursor,
-			ROI,
-			Pan
-		}
-public class ROIDescriptor{
+	public enum EventTool{
+		None,
+		Cursor,
+		ROI,
+		Pan
+	}
+	public class ROIDescriptor{
 		public class Contour{
 			public ROItype roiType;
 			public List<Point> points;
@@ -114,5 +119,5 @@ public class ROIDescriptor{
   		}
 	}// class ROIDescriptor
 
-}
+} //namespace
 
