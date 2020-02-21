@@ -14,6 +14,11 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 ````console
 >dotnet run µImage.Viewer.csproj
 ````
+### Project iterations:
+
+v.1.12.0.16 (21-FEB-2020)
+Oval (Ellipse) ROI type was added.
+
 v.1.11.0.15 (19-FEB-2020)
 Rectangular ROI added to display and Window function added to viewer.
 
