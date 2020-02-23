@@ -15,6 +15,8 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 >dotnet run µImage.Viewer.csproj
 ````
 ### Project iterations:
+v.1.13.0.17 (23-FEB-2020)
+Ability to move Line, Rect and Oval ROIs after creation was added.
 
 v.1.12.0.16 (21-FEB-2020)
 Oval (Ellipse) ROI type was added.
