@@ -10,14 +10,12 @@ using µ.Structures;
 
 namespace µ.Display
 {
-
-
-	
 	public abstract class ROI : ItemsControl
 	{
 		public enum State{
 			DrawingInProgress,
-			Normal
+			Normal,
+			Selected
 		}
     	public static readonly DependencyProperty CurrentStateProperty = DependencyProperty.Register("CurrentState", 
 		typeof(State), typeof(ROI), new FrameworkPropertyMetadata(State.Normal, FrameworkPropertyMetadataOptions.AffectsRender));
@@ -27,6 +25,8 @@ namespace µ.Display
 			set{ SetValue(CurrentStateProperty, value); }
 		}
 
+		public Point actPos = new Point(0.0, 0.0);
+		public Point prevPos = new Point(0.0, 0.0);
 		public event EventHandler<ROIDescriptor.LastEventArgs> LastROIDrawEvent;
 
 		protected void UpdateLastROIDrawEvent(ROIDescriptor.LastEventArgs e)
@@ -58,6 +58,9 @@ namespace µ.Display
 			set{ SetValue(EndPointProperty, value); }
 		}
 
+//		private Point actPos = new Point(0.0, 0.0);
+//		private Point prevPos = new Point(0.0, 0.0);
+
 		public ROILine()
 		{
 			base.MouseLeftButtonDown += OnLineROIMouseLeftButtonDown;
@@ -69,14 +72,27 @@ namespace µ.Display
 		private void OnLineROIMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			CaptureMouse();
+			if (base.CurrentState == State.Normal){
+				base.CurrentState = State.Selected;
+				actPos = prevPos = e.GetPosition(this);
+			}
         }
 
         private void OnLineROIMouseMove(object sender, MouseEventArgs e)
 		{
-        	if (base.CurrentState == State.DrawingInProgress) {
-				EndPoint = e.GetPosition(this);
-				UpdateLastROIDrawEvent(new ROIDescriptor.LastEventArgs(GetLastDrawEventData()));
+			switch (base.CurrentState) {
+				case State.DrawingInProgress:
+					EndPoint = e.GetPosition(this);
+					break;
+				case State.Selected:
+					actPos = e.GetPosition(this);
+					Point diff = new Point(prevPos.X - actPos.X, prevPos.Y - actPos.Y);
+					StartPoint = new Point(StartPoint.X - diff.X, StartPoint.Y - diff.Y);
+					EndPoint = new Point(EndPoint.X - diff.X, EndPoint.Y - diff.Y);
+					prevPos = actPos;
+				break;
 			}
+			UpdateLastROIDrawEvent(new ROIDescriptor.LastEventArgs(GetLastDrawEventData()));
 		}
 
 		private void OnLineROIMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -158,15 +174,28 @@ namespace µ.Display
 		}
 		private void OnRectROIMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
+			if (base.CurrentState == State.Normal){
+				base.CurrentState = State.Selected;
+				actPos = prevPos = e.GetPosition(this);
+			}
 			CaptureMouse();
         }
 
         private void OnRectROIMouseMove(object sender, MouseEventArgs e)
 		{
-        	if (base.CurrentState == State.DrawingInProgress) {
-				BottomRightPoint = e.GetPosition(this);
-				UpdateLastROIDrawEvent(new ROIDescriptor.LastEventArgs(GetLastDrawEventData()));
+			switch (base.CurrentState) {
+				case State.DrawingInProgress:
+					BottomRightPoint = e.GetPosition(this);
+				break;
+				case State.Selected:
+					actPos = e.GetPosition(this);
+					Point diff = new Point(prevPos.X - actPos.X, prevPos.Y - actPos.Y);
+					TopLeftPoint = new Point(TopLeftPoint.X - diff.X, TopLeftPoint.Y - diff.Y);
+					BottomRightPoint = new Point(BottomRightPoint.X - diff.X, BottomRightPoint.Y - diff.Y);
+					prevPos = actPos;
+				break;
 			}
+			UpdateLastROIDrawEvent(new ROIDescriptor.LastEventArgs(GetLastDrawEventData()));
 		}
 
 		private void OnRectROIMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -252,17 +281,31 @@ public class ROIOval : ROI
 			base.MouseLeftButtonUp += OnOvalROIMouseLeftButtonUp;
 			base.MouseMove += OnOvalROIMouseMove;
 		}
+
 		private void OnOvalROIMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			CaptureMouse();
+			if (base.CurrentState == State.Normal){
+				base.CurrentState = State.Selected;
+				actPos = prevPos = e.GetPosition(this);
+			}			
         }
 
         private void OnOvalROIMouseMove(object sender, MouseEventArgs e)
 		{
-        	if (base.CurrentState == State.DrawingInProgress) {
-				BottomRightPoint = e.GetPosition(this);
-				UpdateLastROIDrawEvent(new ROIDescriptor.LastEventArgs(GetLastDrawEventData()));
+			switch (base.CurrentState) {
+				case State.DrawingInProgress:
+					BottomRightPoint = e.GetPosition(this);
+				break;
+				case State.Selected:
+					actPos = e.GetPosition(this);
+					Point diff = new Point(prevPos.X - actPos.X, prevPos.Y - actPos.Y);
+					TopLeftPoint = new Point(TopLeftPoint.X - diff.X, TopLeftPoint.Y - diff.Y);
+					BottomRightPoint = new Point(BottomRightPoint.X - diff.X, BottomRightPoint.Y - diff.Y);
+					prevPos = actPos;
+				break;
 			}
+			UpdateLastROIDrawEvent(new ROIDescriptor.LastEventArgs(GetLastDrawEventData()));
 		}
 
 		private void OnOvalROIMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -286,7 +329,6 @@ public class ROIOval : ROI
 			radiusY = Math.Abs(BottomRightPoint.Y - TopLeftPoint.Y)/2;
 			rect.Height = Math.Abs(BottomRightPoint.Y - TopLeftPoint.Y);
 	
-			//dc.DrawRectangle(Brushes.Transparent, pen, rect);
 			dc.DrawEllipse(Brushes.Transparent, pen, center, radiusX, radiusY);
 		}
 

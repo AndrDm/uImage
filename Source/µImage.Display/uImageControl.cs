@@ -169,26 +169,28 @@ namespace µ.Display
 
         private void OnµImageControlMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            switch (SelectedTool){
-				case Tool.Pan:
-                case Tool.None: //none als pan
-                    _previousPanPoint = Mouse.GetPosition(part_µScrollViewer);
-                    part_µMouseHandler.CaptureMouse();
-                    _mouseDown = true;
-					break;
-				case Tool.ROILine:
-                    ROIList.Clear();
-					StartDrawingLineROI();
-					break;
-                case Tool.ROIRect:    
-                    ROIList.Clear();
-					StartDrawingRectROI();
-					break;
-                case Tool.ROIOval:
-                    ROIList.Clear();
-					StartDrawingOvalROI();
-					break;
+            if (e.OriginalSource == part_µMouseHandler){ //user has clcked on the free space and on ROI
+                switch (SelectedTool){
+				    case Tool.Pan:
+                    case Tool.None: //none als pan
+                        _previousPanPoint = Mouse.GetPosition(part_µScrollViewer);
+                        part_µMouseHandler.CaptureMouse();
+                        _mouseDown = true;
+					    break;
+    				case Tool.ROILine:
+                        ROIList.Clear();
+		    			StartDrawingLineROI();
+			    		break;
+                    case Tool.ROIRect:    
+                        ROIList.Clear();
+	    				StartDrawingRectROI();
+		    			break;
+                    case Tool.ROIOval:
+                        ROIList.Clear();
+					    StartDrawingOvalROI();
+					    break;
 
+                }
             }            
         }//OnµImageControlMouseLeftButtonDown - new ROI types add here
 
