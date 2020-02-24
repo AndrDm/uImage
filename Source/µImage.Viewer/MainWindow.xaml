@@ -1,36 +1,36 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:µ.Viewer"
-        xmlns:Display="clr-namespace:µ.Display;assembly=µImage.Display"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:µ.Viewer"
+		xmlns:Display="clr-namespace:µ.Display;assembly=µImage.Display"
+		xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
    		xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
-        x:Class="µ.Viewer.MainWindow"
-        mc:Ignorable="d"
-        Title="µImage.Viewer" Loaded="MainWindow_Loaded" Height="800" Width="1050">
+		x:Class="µ.Viewer.MainWindow"
+		mc:Ignorable="d"
+		Title="µImage.Viewer" Loaded="MainWindow_Loaded" Height="800" Width="1050">
 
     <Grid>
         <DockPanel LastChildFill="True">
             <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open" Click="menuOpen_Click" />
-                <Separator />
-                <MenuItem Header="_Quit" Click="menuQuit_Click" />
-            </MenuItem>
-            <MenuItem Header="_View">
-                <MenuItem Header="_Zoom 100%" Click="Zoom100_Button_Click" />
-                <Separator />
-                <MenuItem Header="_Zoom to Fit" Click="ZoomFit_Button_Click" />
-            </MenuItem>
-            <MenuItem Header="_Processing">
-                <MenuItem Header="_Demo">
-                    <MenuItem Header="Median 5 x 5" Click="Median_Button_Click" />
-                    <MenuItem Header="Dilate 5 x 5" Click="Dilate_Button_Click" />
-                    <MenuItem Header="Threshold" Click="Threshold_Button_Click" />
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" Click="menuOpen_Click" />
+                    <Separator />
+                    <MenuItem Header="_Quit" Click="menuQuit_Click" />
                 </MenuItem>
-            </MenuItem>
+                <MenuItem Header="_View">
+                    <MenuItem Header="_Zoom 100%" Click="Zoom100_Button_Click" />
+                    <Separator />
+                    <MenuItem Header="_Zoom to Fit" Click="ZoomFit_Button_Click" />
+                </MenuItem>
+                <MenuItem Header="_Processing">
+                    <MenuItem Header="_Demo">
+                        <MenuItem Header="Median 5 x 5" Click="Median_Button_Click" />
+                        <MenuItem Header="Dilate 5 x 5" Click="Dilate_Button_Click" />
+                        <MenuItem Header="Threshold" Click="Threshold_Button_Click" />
+                    </MenuItem>
+                </MenuItem>
             </Menu>
             <DockPanel DockPanel.Dock="Top" Margin="0,8,0,0">
                 <Button DockPanel.Dock="Left" Content="Open File..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Open_Button_Click" />
@@ -39,24 +39,12 @@
                 <Button Content="Window..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Window_Button_Click" />
                 <Button Content="Oval..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Oval_Button_Click" />
             </DockPanel>
-            <DockPanel LastChildFill="True">
-                <StackPanel Width="550" Height="650"  DockPanel.Dock="Left" Margin="32,32,0,0">
-            <Slider x:Name = "SliderMin" DockPanel.Dock="Top" ValueChanged="Sliders_ValueChanged" Maximum="255" Value="0" LargeChange="16" SmallChange="16" TickFrequency="16"/>
-            <Slider x:Name = "SliderMax" DockPanel.Dock="Top" ValueChanged="Sliders_ValueChanged" Maximum="255" Value="255" LargeChange="16" SmallChange="16" TickFrequency="16" Margin="0,16,0,0"/>
-
-                <Display:uImageControl
-                                   Name ="MyµImage" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center" 
-                                   Height="512" Width="512" Margin="0,32,0,0"
-                                   ROIValueChanged="OnROIValueChanged"
-                />
-                </StackPanel>
-                <StackPanel Width="400" Height="750">
-                    <Button Content="Original Image" Click="Original_Button_Click" />
-                    <Button Content="Zoom - Fit" Click="ZoomFit_Button_Click" Margin="0,8,0,0" />
-                    <Button Content="Zoom - 1:1" Click="Zoom100_Button_Click" Margin="0,8,0,0" />
-                    <ComboBox Name="PalettesList" SelectionChanged="PaletteComboBox_Selected" Margin="0,8,0,16">
+            <DockPanel x:Name="dockPanel" LastChildFill="True">
+                <StackPanel Width="420" DockPanel.Dock="Right">
+                    <Button Content="Original Image" Click="Original_Button_Click" Margin="10,8,10,0"/>
+                    <Button Content="Zoom - Fit" Click="ZoomFit_Button_Click" Margin="10,8,10,0" />
+                    <Button Content="Zoom - 1:1" Click="Zoom100_Button_Click" Margin="10,8,10,0" />
+                    <ComboBox Name="PalettesList" SelectionChanged="PaletteComboBox_Selected" Margin="10,8,10,16">
                         <ComboBoxItem IsSelected = "True">Gray</ComboBoxItem>
                         <ComboBoxItem>Binary</ComboBoxItem>
                         <ComboBoxItem>Gradient</ComboBoxItem>
@@ -72,13 +60,15 @@
                         <ComboBoxItem>Gamma 2.3</ComboBoxItem>
                         <ComboBoxItem>Gamma 2.5</ComboBoxItem>
                     </ComboBox>
+                    <Slider x:Name = "SliderMin" DockPanel.Dock="Top" ValueChanged="Sliders_ValueChanged" Maximum="255" Value="0" LargeChange="16" SmallChange="16" TickFrequency="16" Margin="32,0,32,0"/>
+                    <Slider x:Name = "SliderMax" DockPanel.Dock="Top" ValueChanged="Sliders_ValueChanged" Maximum="255" Value="255" LargeChange="16" SmallChange="16" TickFrequency="16" Margin="32,16,32,16"/>
 
-		<d3:Chart BottomTitle="Position" LeftTitle="Intensity"  Height = "256" Width = "400" >
-		     <d3:LineGraph x:Name="linegraph" Description="Line Profile" Stroke="Blue" StrokeThickness="3"/>
-		</d3:Chart> 
+                    <d3:Chart BottomTitle="Position" LeftTitle="Intensity"  Height = "256" Width = "400" >
+                        <d3:LineGraph x:Name="linegraph" Description="Line Profile" Stroke="Blue" StrokeThickness="3"/>
+                    </d3:Chart>
 
                     <lvc:CartesianChart Name="mySeries" Height = "256" Width = "400" Series="{Binding SeriesCollection}" 
-                    LegendLocation="Top" DisableAnimations="True" >
+					LegendLocation="Top" DisableAnimations="True" >
                         <lvc:CartesianChart.AxisX>
                             <lvc:Axis Title="Bins" ></lvc:Axis>
                         </lvc:CartesianChart.AxisX>
@@ -87,7 +77,16 @@
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
                 </StackPanel>
+                <StackPanel x:Name="stackPanel"   Margin="32,0,0,0" DockPanel.Dock="Top" Height="{Binding ActualHeight, ElementName=dockPanel, Mode=OneWay}">
+
+                    <Display:uImageControl
+								   Name ="MyµImage" 
+								   HorizontalAlignment="Center" 
+								   Height="{Binding ActualHeight, ElementName=dockPanel, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=stackPanel, Mode=OneWay}" Margin="0,0,0,0"
+								   ROIValueChanged="OnROIValueChanged"
+				    />
+                </StackPanel>
             </DockPanel>
-        </DockPanel> 
+        </DockPanel>
     </Grid>
 </Window>

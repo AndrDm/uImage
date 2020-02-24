@@ -17,15 +17,15 @@ namespace µ.Structures
 {
 
 	public enum ImageType {
-        U8 = 0,
-        U16 = 1,
-    }
+		U8 = 0,
+		U16 = 1,
+	}
 
-    public enum CalibrationUnit {
-        Undefined = 0,
-        Millimeter = 1,
-        Inch = 2,
-    }
+	public enum CalibrationUnit {
+		Undefined = 0,
+		Millimeter = 1,
+		Inch = 2,
+	}
 
 	public enum ROItype{
 		None,
@@ -118,6 +118,28 @@ namespace µ.Structures
   			return true;
   		}
 	}// class ROIDescriptor
+
+			public enum State{
+			DrawingInProgress,
+			Normal,
+			Selected
+		}
+
+
+	public enum AnchorType
+	{
+		Move,
+		Resize
+		//check todo from 21FEB2020
+	}
+
+	public enum AnchorProps{
+		ANCHOR_RADIUS = 5
+	}
+
+	public enum OverlayType{
+		Text = 1
+	}
 
 } //namespace
 

@@ -9,11 +9,11 @@ using µ.Structures;
 
 namespace µ.Display
 {
-    public partial class uImageControl : Control
-    {
+	public partial class uImageControl : Control
+	{
 		public static DependencyProperty SelectedToolProperty;
 
-    	public Tool SelectedTool
+		public Tool SelectedTool
 		{
 			get{ return (Tool)GetValue(SelectedToolProperty); }
 			set{ SetValue(SelectedToolProperty, value); }
@@ -22,13 +22,13 @@ namespace µ.Display
 		private static void ToolRegisterProperty()
 		{
 			SelectedToolProperty = DependencyProperty.Register("SelectedTool", typeof(Tool), typeof(uImageControl), 
-            new PropertyMetadata(Tool.None, OnSelectedToolChanged));
-        }
+			new PropertyMetadata(Tool.None, OnSelectedToolChanged));
+		}
 		private static void OnSelectedToolChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-            //MessageBox.Show("Tool changed");
+			//MessageBox.Show("Tool changed");
 		}
-    }
+	}
 }
 
 
