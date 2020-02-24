@@ -12,7 +12,7 @@
 							<TextBox  Name="PART_µInfo" DockPanel.Dock="Left" Width = "150">x = 0, y = 0</TextBox>
 							<TextBox  Name="PART_µPixelInfo" DockPanel.Dock="Left">8-bit Image, 0</TextBox>
 						</DockPanel>
-						<ScrollViewer Name="PART_µScrollViewer"  HorizontalScrollBarVisibility="Visible">
+						<ScrollViewer Name="PART_µScrollViewer"  HorizontalScrollBarVisibility="Visible" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
 							<Grid>
 								<Border Background="{TemplateBinding Background}"
 										BorderBrush="{TemplateBinding BorderBrush}"

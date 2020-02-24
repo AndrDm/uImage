@@ -62,7 +62,10 @@ namespace µ.Display
 			double ratioWidth = part_µScrollViewer.ViewportWidth / (double)imgWidth;
 			double ratioHeight = part_µScrollViewer.ViewportHeight / (double)imgHeight;
 			double zoom = Math.Min(ratioWidth, ratioHeight);
-			Magnification = zoom;			
+			Magnification = zoom;
+			part_µScrollViewer.ScrollToHorizontalOffset(imgWidth / 2.0 * Magnification);
+			part_µScrollViewer.ScrollToVerticalOffset(imgHeight /2.0 * Magnification);
+						
 		}
 
 		private double ComputeZoomToFitRatio()
