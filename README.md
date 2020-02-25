@@ -15,8 +15,11 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 >dotnet run µImage.Viewer.csproj
 ````
 ### Project iterations:
+v.1.14.1.19 (25-FEB-2020)
+Zoom to fit bug - fixed (caused by added canvas for annotation).
+
 v.1.14.0.18 (24-FEB-2020)
-ROI's Anchors was added, Display is resizible now, Zoom to fit bug - fixed.
+ROI's Anchors was added, Display is resizible now.
 
 v.1.13.0.17 (23-FEB-2020)
 Ability to move Line, Rect and Oval ROIs after creation was added.
