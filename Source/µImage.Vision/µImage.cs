@@ -224,7 +224,7 @@ namespace µ.Vision
             //https://stackoverflow.com/questions/18135917/better-ways-to-create-a-rectangular-mask-by-opencv
             //cv::Mat mask = cv::Mat::zeros(8, 8, CV_8U); // all 0
             //mask(Rect(2,2,4,4)) = 1;
-            OpenCvSharp.Mat mask = new OpenCvSharp.Mat(source.Width, source.Height, OpenCvSharp.MatType.CV_8U, 0);
+            OpenCvSharp.Mat mask = new OpenCvSharp.Mat(source.Height, source.Width, OpenCvSharp.MatType.CV_8U, 0); //rows, cols!
             OpenCvSharp.Cv2.Rectangle(mask, pt1cv, pt2cv, 1, OpenCvSharp.Cv2.FILLED);
             OpenCvSharp.Cv2.MinMaxLoc(source._image, out minVal, out maxVal, out MinLoc, out MaxLoc, mask);
             //µCore.µOutputDebugString("ROI: x1="+pt1cv.X+" y1="+pt1cv.Y+" x2="+pt2cv.X+" y2="+pt2cv.Y+" min= "+ minVal+" max="+maxVal+

@@ -1,0 +1,36 @@
+<Window x:Class="µ.DICONDE.DICONDEInfoWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:µ.DICONDE"
+		mc:Ignorable="d"
+		Title="DICONDE Info" Width = "800" Height = "600" WindowStartupLocation="CenterScreen">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="20*" />
+			<RowDefinition Height="80*"  />
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="100*" />
+		</Grid.ColumnDefinitions>
+
+		<TreeView Grid.Row="0" Grid.Column="0" Margin="5,5,5,5" 
+			Name="mIODTree" BorderThickness="0" FontSize="12" FontFamily="Courier New" 
+			SelectedItemChanged="mIODTree_SelectedItemChanged"
+		/>
+		<Grid Grid.Row="1" Grid.Column="0" Name="mGrid" >
+			<Grid.RowDefinitions>
+				<RowDefinition Height="0" />
+				<RowDefinition Height="*"  />
+				<RowDefinition Height="0" />
+			</Grid.RowDefinitions>
+			<TreeView Grid.Row="1" 
+				Name="mDICONDETagTree" Margin="5,5,5,5" 
+				BorderThickness="0" FontSize="12" FontFamily="Courier New" HorizontalAlignment="Stretch"
+			/>
+		</Grid>
+	</Grid>
+ </Window>

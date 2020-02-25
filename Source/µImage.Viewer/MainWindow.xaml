@@ -34,10 +34,12 @@
             </Menu>
             <DockPanel DockPanel.Dock="Top" Margin="0,8,0,0">
                 <Button DockPanel.Dock="Left" Content="Open File..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Open_Button_Click" />
+                <Button Content="Open DICONDE..." Width="100" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Open_DICONDE_Button_Click" />
                 <Button Content="Pan..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Pan_Button_Click" />
                 <Button Content="Line Profile..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Line_Button_Click" />
                 <Button Content="Window..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Window_Button_Click" />
                 <Button Content="Oval..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Oval_Button_Click" />
+                <Button Name="Info" Content="Info..." Width="80" HorizontalAlignment="Left" Margin="32,0,0,0" Click="Info_Button_Click" />
             </DockPanel>
             <DockPanel x:Name="dockPanel" LastChildFill="True">
                 <StackPanel Width="420" DockPanel.Dock="Right">

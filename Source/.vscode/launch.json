@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/µImage.Viewer/bin/Debug/netcoreapp3.1/µImage.Viewer.dll",
+            "program": "${workspaceFolder}/../Build/Debug/netcoreapp3.1/µImage.Viewer.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/µImage.Viewer",
+            "cwd": "${workspaceFolder}/../Build/Debug/netcoreapp3.1/",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false

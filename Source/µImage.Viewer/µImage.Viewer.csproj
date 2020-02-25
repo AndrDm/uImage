@@ -22,6 +22,7 @@
     <ProjectReference Include="..\µImage.Structures\µImage.Structures.csproj" />
     <ProjectReference Include="..\µImage.Display\µImage.Display.csproj" />
     <ProjectReference Include="..\µImage.Vision\µImage.Vision.csproj" />
+    <ProjectReference Include="..\µImage.DICONDE\µImage.DICONDE.csproj" />
   </ItemGroup>
 
   <ItemGroup>

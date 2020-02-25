@@ -9,9 +9,11 @@ using µ.Core;
 using µ.Vision;
 using µ.Display;
 using µ.Structures;
+using µ.DICONDE;
 
 using static µ.Vision.µImage;
 using static µ.Core.µCore;
+using static µ.DICONDE.µDICONDE;
 
 using LiveCharts;
 using LiveCharts.Wpf;
@@ -27,6 +29,8 @@ namespace µ.Viewer
 	{
 		static µImage µsrc, µdst;
 
+		static string DICONDEFile;
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -40,6 +44,7 @@ namespace µ.Viewer
 			µCopy(µsrc, µdst);
 			MyµImage.DisplayImage(µsrc);
 			DisplayHistogram(µsrc);
+			Info.IsEnabled = false;
 		}
 		private async void OnROIValueChanged(object sender, ROIValueChangedEventArgs e)
 		{
@@ -96,6 +101,7 @@ namespace µ.Viewer
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Image files (*.png;*.jpg;*.tif)|*.png;*.jpg;*.tif|All files (*.*)|*.*";
 			if(openFileDialog.ShowDialog() == true){
+				Info.IsEnabled = false;
 				µReadFile(µsrc, openFileDialog.FileName);
 				µCopy(µsrc, µdst);
 				if (µdst.imageType == ImageType.U8) SliderMin.Maximum = SliderMax.Maximum = SliderMax.Value = 255;
@@ -108,6 +114,36 @@ namespace µ.Viewer
 				MyµImage.PerformZoomToFit();
 				DisplayHistogram(µdst);            }
 		}
+
+		private void Open_DICONDE_Button_Click(object sender, RoutedEventArgs e)
+		{
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "DICONDE Image files (*.dcm)|*.dcm|All files (*.*)|*.*";
+			if(openFileDialog.ShowDialog() == true){
+				µReadDICONDEFile(µsrc, openFileDialog.FileName);
+				DICONDEFile = openFileDialog.FileName;
+				Info.IsEnabled = true;
+				µCopy(µsrc, µdst);
+				if (µdst.imageType == ImageType.U8) SliderMin.Maximum = SliderMax.Maximum = SliderMax.Value = 255;
+				if (µdst.imageType == ImageType.U16){
+					SliderMin.Minimum = SliderMax.Minimum = SliderMin.Value = µGetMin(µdst);                
+					SliderMin.Maximum = SliderMax.Maximum = SliderMax.Value = µGetMax(µdst);
+				}                
+				MyµImage.SetDisplayMappingData((int)µGetMin(µdst), (int)µGetMax(µdst), µ.Display.DisplayMappingOption.Default);
+				MyµImage.DisplayImage(µdst); 
+				MyµImage.PerformZoomToFit();
+				MyµImage.DisplayImage(µdst); 
+				DisplayHistogram(µdst);
+				//MyµImage.Dispatcher.Invoke( () => MyµImage.DisplayImage(µdst) );   
+			}	
+		}
+
+		private void Info_Button_Click(object sender, RoutedEventArgs e)
+		{
+    		DICONDEInfoWindow infoWindow = new DICONDEInfoWindow(DICONDEFile);
+    		infoWindow.ShowDialog();
+		}		
+
 		private void Original_Button_Click(object sender, RoutedEventArgs e)
 		{
 			µCopy(µsrc, µdst);
@@ -221,6 +257,6 @@ namespace µ.Viewer
 		private void Oval_Button_Click(object sender, RoutedEventArgs e)
 		{
 			MyµImage.SelectedTool = Tool.ROIOval;
-		}        
+		}
 	}
 }
