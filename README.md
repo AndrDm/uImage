@@ -4,7 +4,8 @@ Learn C#/WPF by building micro Image Viewer from scratch.
 Just my "learning by doing" pet project, which could be useful for someone else.
 
 ## Getting started:
-- Download and install latest .NET Core SDK (https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.101-windows-x64-installer)
+- Download and install latest .NET Core SDK (3.1.102 released 18-FEB-2020):
+  https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.102-windows-x64-installer
 - Obtain latest code snapshot (https://github.com/AndrDm/uImage/archive/master.zip)
 - Build project 
 ````console
