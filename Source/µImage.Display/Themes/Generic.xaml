@@ -12,17 +12,13 @@
 							<TextBox  Name="PART_µInfo" DockPanel.Dock="Left" Width = "150">x = 0, y = 0</TextBox>
 							<TextBox  Name="PART_µPixelInfo" DockPanel.Dock="Left">8-bit Image, 0</TextBox>
 						</DockPanel>
-						<ScrollViewer Name="PART_µScrollViewer"  HorizontalScrollBarVisibility="Visible" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+						<ScrollViewer Name="PART_µScrollViewer"  HorizontalScrollBarVisibility="Visible">
 							<Grid>
 								<Border Background="{TemplateBinding Background}"
 										BorderBrush="{TemplateBinding BorderBrush}"
 										BorderThickness="{TemplateBinding BorderThickness}">
 								</Border>
 								<Image Name="PART_µImage" Stretch="None"/>
-								<Canvas Name="PART_µAnnotations" 
-										Width="{Binding ActualWidth, ElementName=PART_µImage}" 
-										Height="{Binding ActualHeight, ElementName=PART_µImage}"
-										ClipToBounds="True"  />
 								<Grid Name="PART_µMouseHandler" Background="#00FFFFFF">
 									<ItemsControl Name="PART_µROI" ItemsSource="{TemplateBinding local:uImageControl.ROIList}" 
 									ClipToBounds="True" Width="{Binding ActualWidth, ElementName=PART_µImage}" 
