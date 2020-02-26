@@ -16,6 +16,9 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 >dotnet run µImage.Viewer.csproj
 ````
 ### Project iterations:
+v.1.15.0.20 (26-FEB-2020)
+Support for DICONDE File Format was added, bug fix in MinMax function.
+
 v.1.14.1.19 (25-FEB-2020)
 Zoom to fit bug - fixed (caused by added canvas for annotation).
 
