@@ -22,19 +22,19 @@ namespace µ.DICONDE
 
 			mIODRepository.Add(new IOD(infoFileName));
 
-			foreach (string aPatientName in mIODRepository.GetPatients()){
-				TreeViewItem aPatientItem = new TreeViewItem() { Header = aPatientName };
-				this.mIODTree.Items.Add(aPatientItem);
-				foreach (string aSOPClass in mIODRepository.GetSOPClassNames(aPatientName)){
+			foreach (string aComponentName in mIODRepository.GetComponents()){
+				TreeViewItem aComponentItem = new TreeViewItem() { Header = aComponentName };
+				this.mIODTree.Items.Add(aComponentItem);
+				foreach (string aSOPClass in mIODRepository.GetSOPClassNames(aComponentName)){
 					TreeViewItem aSOPClassItem = new TreeViewItem() { Header = aSOPClass };
-					aPatientItem.Items.Add(aSOPClassItem);
-					foreach (string aStudy in mIODRepository.GetStudies(aPatientName, aSOPClass)){
+					aComponentItem.Items.Add(aSOPClassItem);
+					foreach (string aStudy in mIODRepository.GetStudies(aComponentName, aSOPClass)){
 						TreeViewItem aStudyItem = new TreeViewItem() { Header = string.Format(@"Study: '{0}'", aStudy) };
 						aSOPClassItem.Items.Add(aStudyItem);
-						foreach (string aSeries in mIODRepository.GetSeries(aPatientName, aSOPClass, aStudy)){
+						foreach (string aSeries in mIODRepository.GetSeries(aComponentName, aSOPClass, aStudy)){
 							TreeViewItem aSeriesItem = new TreeViewItem() { Header = string.Format(@"Series: '{0}'", aSeries) };
 							aStudyItem.Items.Add(aSeriesItem);
-							foreach (IOD aIOD in mIODRepository.GetIODs(aPatientName, aSOPClass, aStudy, aSeries)){
+							foreach (IOD aIOD in mIODRepository.GetIODs(aComponentName, aSOPClass, aStudy, aSeries)){
 									TreeViewItem anIOD = new TreeViewItem() { Header = string.Format(@"{0}", aIOD.SOPInstanceUID) };
 									anIOD.Tag = aIOD;
 									aSeriesItem.Items.Add(anIOD);

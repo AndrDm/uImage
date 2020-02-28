@@ -99,7 +99,9 @@ namespace µ.Viewer
 		private void Open_Button_Click(object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Image files (*.png;*.jpg;*.tif)|*.png;*.jpg;*.tif|All files (*.*)|*.*";
+			openFileDialog.Filter = "Image files (*.png;*.jpg;*.tif;)|*.png;*.jpg;*.tif;|All files (*.*)|*.*";
+			//JPEG2000 is not supported by opencv, should use something else - freeimage or image magic...
+			//openFileDialog.Filter = "Image files (*.png;*.jpg;*.tif;*.jp2)|*.png;*.jpg;*.tif;*.jp2|All files (*.*)|*.*";
 			if(openFileDialog.ShowDialog() == true){
 				Info.IsEnabled = false;
 				µReadFile(µsrc, openFileDialog.FileName);

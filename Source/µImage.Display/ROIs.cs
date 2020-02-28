@@ -21,17 +21,25 @@ namespace µ.Display
 		public static readonly DependencyProperty CurrentStateProperty = DependencyProperty.Register("CurrentState", typeof(State), 
 		typeof(Anchor), new FrameworkPropertyMetadata(State.Normal, FrameworkPropertyMetadataOptions.AffectsRender));
 
-		public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(Point), 
-		typeof(Anchor), new FrameworkPropertyMetadata(new Point(0.0, 0.0), FrameworkPropertyMetadataOptions.AffectsRender));
-
 		public State CurrentState{
 			get{return (State)GetValue(CurrentStateProperty);}
 			set{SetValue(CurrentStateProperty, value);}
 		}
 
+		public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(Point), 
+		typeof(Anchor), new FrameworkPropertyMetadata(new Point(0.0, 0.0), FrameworkPropertyMetadataOptions.AffectsRender));
+
 		public Point Position{
 			get{return (Point)GetValue(PositionProperty);}
 			set{SetValue(PositionProperty, value);}
+		}
+
+		public static readonly DependencyProperty MagnificationProperty = DependencyProperty.Register("Magnification", typeof(double), 
+		typeof(Anchor), new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public double Magnification{
+			get{return (double)GetValue(MagnificationProperty);}
+			set{SetValue(MagnificationProperty, value);}
 		}
 
 		public Anchor(){}
@@ -48,7 +56,7 @@ namespace µ.Display
 			Point bottom = new Point(center.X, center.Y + 5);
 			Point left = new Point(center.X - 5, center.Y);
 			Point right = new Point(center.X + 5, center.Y);
-			Pen pen = new Pen(Brushes.Red, 2.0);
+			Pen pen = new Pen(Brushes.Red, 2.0 / base.Magnification);
 			//10x10 cross
 			drawingContext.DrawLine(pen, top, bottom);
 			drawingContext.DrawLine(pen, left, right);
@@ -61,14 +69,14 @@ namespace µ.Display
 		{
 			base.OnRender(drawingContext);
 			Point center = new Point(base.Position.X, base.Position.Y);
-			Pen pen = new Pen(Brushes.Red, 2.0);
-			drawingContext.DrawEllipse(Brushes.Transparent, pen, center, 5, 5);
+			Pen pen = new Pen(Brushes.Red, 2.0 / base.Magnification);
+			drawingContext.DrawEllipse(Brushes.Transparent, pen, center, 5.0 / base.Magnification, 5.0 / base.Magnification);
 		}
 	}
 
 	internal static class AnchorsFactory
 	{
-		public static Anchor Create(AnchorType type, ROI bindingSource)
+		public static Anchor Create(AnchorType type, ROI roi)
 		{
 			Anchor anchor = null;
 			switch (type){
@@ -76,7 +84,13 @@ namespace µ.Display
 				case AnchorType.Resize: anchor = new RoundAnchor(); break;
 				default: return null;
 			}
+
+			Binding binding = new Binding(Anchor.MagnificationProperty.Name);
+			binding.Source = roi;
+			anchor.SetBinding(Anchor.MagnificationProperty, binding);
+
 			return anchor;
+
 		}
 	}
 
@@ -89,6 +103,14 @@ namespace µ.Display
 			get{ return (State)GetValue(CurrentStateProperty); }
 			set{ SetValue(CurrentStateProperty, value); }
 		}
+		public static readonly DependencyProperty MagnificationProperty = DependencyProperty.Register("Magnification", 
+		typeof(double), typeof(ROI), new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public double Magnification{
+			get{return (double)GetValue(MagnificationProperty);}
+			set{SetValue(MagnificationProperty, value);}
+		}
+
 
 		public Point actPos = new Point(0.0, 0.0);
 		public Point prevPos = new Point(0.0, 0.0);
@@ -197,7 +219,7 @@ namespace µ.Display
 		protected override void OnRender(DrawingContext dc)
 		{
 			base.OnRender(dc);
-			Pen pen = new Pen(Brushes.Red, 2.0); //ToDo: scale with magnification factor!
+			Pen pen = new Pen(Brushes.Red, 2.0 / base.Magnification); //ToDo: scale with magnification factor!
 			dc.DrawLine(pen, StartPoint, EndPoint);	
 		}
 
@@ -369,7 +391,7 @@ namespace µ.Display
 		protected override void OnRender(DrawingContext dc)
 		{
 			base.OnRender(dc);
-			Pen pen = new Pen(Brushes.Red, 2.0); //ToDo: scale with magnification factor!
+			Pen pen = new Pen(Brushes.Red, 2.0 / base.Magnification);
 			Rect rect;
 
 			rect.X = Math.Min(TopLeftPoint.X, BottomRightPoint.X);
@@ -529,7 +551,7 @@ namespace µ.Display
 		protected override void OnRender(DrawingContext dc)
 		{
 			base.OnRender(dc);
-			Pen pen = new Pen(Brushes.Red, 2.0); //ToDo: scale with magnification factor!
+			Pen pen = new Pen(Brushes.Red, 2.0 / base.Magnification); //ToDo: scale with magnification factor!
 			dc.DrawEllipse(Brushes.Transparent, pen, Center, RadiusX, RadiusY);
 		}
 
@@ -583,6 +605,13 @@ namespace µ.Display
 			protected set {SetValue(GetLastEventDataPropertyKey, value); }
 		}
 
+		private void SetBinding(string sourcePathName, DependencyObject targetObject, DependencyProperty targetDp)
+		{
+			Binding binding = new Binding(sourcePathName);
+			binding.Source = this;
+			BindingOperations.SetBinding(targetObject, targetDp, binding);
+		}
+			
 		private void StartDrawingLineROI()
 		{
 			ROILine lineROI = new ROILine();
@@ -591,6 +620,8 @@ namespace µ.Display
 			lineROI.CaptureMouse();
 			lineROI.CurrentState = State.DrawingInProgress;
 			lineROI.LastROIDrawEvent += OnGetLastDrawEventUpdated;
+			SetBinding(MagnificationProperty.Name, lineROI, ROI.MagnificationProperty);
+
 		}
 
 		private void StartDrawingRectROI()
@@ -601,6 +632,7 @@ namespace µ.Display
 			rectROI.CaptureMouse();
 			rectROI.CurrentState = State.DrawingInProgress;
 			rectROI.LastROIDrawEvent += OnGetLastDrawEventUpdated;
+			SetBinding(MagnificationProperty.Name, rectROI, ROI.MagnificationProperty);
 		}
 
 	   private void StartDrawingOvalROI()
@@ -611,6 +643,7 @@ namespace µ.Display
 			ovalROI.CaptureMouse();
 			ovalROI.CurrentState = State.DrawingInProgress;
 			ovalROI.LastROIDrawEvent += OnGetLastDrawEventUpdated;
+			SetBinding(MagnificationProperty.Name, ovalROI, ROI.MagnificationProperty);
 		}
 
 

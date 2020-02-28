@@ -16,7 +16,7 @@ namespace µ.DICONDE
 		public string SOPInstanceUID { get; set; }
 		public string SOPClassUID { get; set; }
 		public string SOPClassName { get; set; }
-		public string PatientName { get; set; }
+		public string ComponentName { get; set; }
 		public string TransferSyntaxUID { get; set; }
 		public double SortOrder { get; set; }
 
@@ -35,7 +35,7 @@ namespace µ.DICONDE
 			this.SOPClassUID = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0008,0016)");
 			this.SOPClassName = SOPClassDictionary.GetSOPClassName(this.SOPClassUID);
 
-			this.PatientName = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0010,0010)");
+			this.ComponentName = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0010,0010)");
 
 			this.TransferSyntaxUID = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0002,0010)");
 
@@ -43,12 +43,12 @@ namespace µ.DICONDE
 			// For all other IOD's, the SortOrder attribute has no meaning.
 			// For sorting the CT Slices, the Z-Value is used.
 			// The Z-Value is tried to be determined either from 
-			//    - 'Image Position Patient' attribute (0020,0032) or from
+			//    - 'Image Position Component' attribute (0020,0032) or from
 			//    - 'Slice Location' attribute (0020,1041)
-			if (DICONDEParserUtility.DoesDICONDEAttributeExist(this.XDocument, "(0020,0032)")){
-				// 'Image Position Patient' attribute will be encoded as "x\y\z"
-				string aImagePositionPatient = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0020,0032)");
-				string[] split = aImagePositionPatient.Split(new Char[] { '\\' });
+			if (DICONDEParserUtility.DoesDICONDEAttributeExist(this.XDocument, "(0020,0032)")){ //"(0020,0032)", "Image Position (Component)"
+				// 'Image Position Component' attribute will be encoded as "x\y\z"
+				string aImagePositionComponent = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0020,0032)");
+				string[] split = aImagePositionComponent.Split(new Char[] { '\\' });
 				this.SortOrder = Convert.ToDouble(split[2], CultureInfo.InvariantCulture);
 			}
 			else{

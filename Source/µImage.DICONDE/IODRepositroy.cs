@@ -19,29 +19,29 @@ namespace µ.DICONDE
 			myIODRepository.Add(theIODInfo);
 		}
 
-		public List<string> GetPatients()
+		public List<string> GetComponents()
 		{
-			var aPatientQuery = (from IODElement in myIODRepository
-								 orderby IODElement.PatientName ascending
-								 select IODElement.PatientName).Distinct();
+			var aComponentQuery = (from IODElement in myIODRepository
+								 orderby IODElement.ComponentName ascending
+								 select IODElement.ComponentName).Distinct();
 
-			return aPatientQuery.ToList();
+			return aComponentQuery.ToList();
 		}
 
-		public List<string> GetSOPClassNames(string thePatientName)
+		public List<string> GetSOPClassNames(string theComponentName)
 		{
 			var aSOPClassQuery = (from IODElement in myIODRepository
-								  where IODElement.PatientName.Equals(thePatientName)
+								  where IODElement.ComponentName.Equals(theComponentName)
 								  orderby IODElement.SOPClassName ascending
 								  select IODElement.SOPClassName).Distinct();
 
 			return aSOPClassQuery.ToList();
 		}
 
-		public List<string> GetStudies(string thePatientName, string theSOPClassName)
+		public List<string> GetStudies(string theComponentName, string theSOPClassName)
 		{
 			var aStudyQuery = (from IODElement in myIODRepository
-							   where IODElement.PatientName.Equals(thePatientName)
+							   where IODElement.ComponentName.Equals(theComponentName)
 							   where IODElement.SOPClassName.Equals(theSOPClassName)
 							   orderby IODElement.StudyInstanceUID ascending
 							   select IODElement.StudyInstanceUID).Distinct();
@@ -49,10 +49,10 @@ namespace µ.DICONDE
 			return aStudyQuery.ToList();
 		}
 
-		public List<string> GetSeries(string thePatientName, string theSOPClassName, string theStudyInstanceUID)
+		public List<string> GetSeries(string theComponentName, string theSOPClassName, string theStudyInstanceUID)
 		{
 			var aSeriesQuery = (from IODElement in myIODRepository
-								where IODElement.PatientName.Equals(thePatientName)
+								where IODElement.ComponentName.Equals(theComponentName)
 								where IODElement.SOPClassName.Equals(theSOPClassName)
 								where IODElement.StudyInstanceUID.Equals(theStudyInstanceUID)
 								orderby IODElement.SeriesInstanceUID ascending
@@ -61,10 +61,10 @@ namespace µ.DICONDE
 			return aSeriesQuery.ToList();
 		}
 
-		public List<IOD> GetIODs(string thePatientName, string theSOPClassName, string theStudyInstanceUID, string theSeriesInstanceUID)
+		public List<IOD> GetIODs(string theComponentName, string theSOPClassName, string theStudyInstanceUID, string theSeriesInstanceUID)
 		{
 			var aIODQuery = from IODElement in myIODRepository
-							where IODElement.PatientName.Equals(thePatientName)
+							where IODElement.ComponentName.Equals(theComponentName)
 							where IODElement.SOPClassName.Equals(theSOPClassName)
 							where IODElement.StudyInstanceUID.Equals(theStudyInstanceUID)
 							where IODElement.SeriesInstanceUID.Equals(theSeriesInstanceUID)
