@@ -16,6 +16,9 @@ Just my "learning by doing" pet project, which could be useful for someone else.
 >dotnet run µImage.Viewer.csproj
 ````
 ### Project iterations:
+v.1.16.0.21 (28-FEB-2020)
+ROI's thickness and sizes of the anchors scaled with magnification factor
+
 v.1.15.0.20 (26-FEB-2020)
 Support for DICONDE File Format was added, bug fix in MinMax function.
 
