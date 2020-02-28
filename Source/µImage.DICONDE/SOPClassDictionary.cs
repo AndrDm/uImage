@@ -7,6 +7,7 @@ namespace µ.DICONDE
 		// DICONDE SOP Class Dictionary
 		// Reference: DICOM Standard 2009, Part 4: Service Class Specifications, Table B.5-1 Standard SOP Classes
 
+		//ToDo: Check DICONDE Dictionary
 		static private readonly Dictionary<string, string> d = new Dictionary<string, string>
 		{
 			{ "1.2.840.10008.5.1.4.1.1.9.1.3", "Ambulatory Electrocardiogram Waveform" },

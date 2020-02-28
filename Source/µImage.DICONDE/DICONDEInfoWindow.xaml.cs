@@ -21,7 +21,7 @@ namespace µ.DICONDE
 			if (infoFileName == "") return;
 
 			mIODRepository.Add(new IOD(infoFileName));
-
+			//changed to component:
 			foreach (string aComponentName in mIODRepository.GetComponents()){
 				TreeViewItem aComponentItem = new TreeViewItem() { Header = aComponentName };
 				this.mIODTree.Items.Add(aComponentItem);

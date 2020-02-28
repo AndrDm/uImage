@@ -34,7 +34,7 @@ namespace µ.DICONDE
 
 			this.SOPClassUID = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0008,0016)");
 			this.SOPClassName = SOPClassDictionary.GetSOPClassName(this.SOPClassUID);
-
+			//DICONDE:Component
 			this.ComponentName = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0010,0010)");
 
 			this.TransferSyntaxUID = DICONDEParserUtility.GetDICONDEAttributeAsString(this.XDocument, "(0002,0010)");

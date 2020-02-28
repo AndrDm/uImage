@@ -19,6 +19,7 @@ namespace µ.DICONDE
 			myIODRepository.Add(theIODInfo);
 		}
 
+		//DICONDE:Component
 		public List<string> GetComponents()
 		{
 			var aComponentQuery = (from IODElement in myIODRepository

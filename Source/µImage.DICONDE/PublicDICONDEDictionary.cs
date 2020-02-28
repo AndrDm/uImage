@@ -263,8 +263,8 @@ namespace µ.DICONDE
 			{ "(0008,9460)", new DICONDETagInfo("(0008,9460)", "Skip Frame Range Flag", "CS") },
 
 			{ "(0010,0000)", new DICONDETagInfo("(0010,0000)", "Group 0010 Length", "UL") },
-			{ "(0010,0010)", new DICONDETagInfo("(0010,0010)", "Component's Name", "PN") }, 
-			{ "(0010,0020)", new DICONDETagInfo("(0010,0020)", "Component ID", "LO") }, 
+			{ "(0010,0010)", new DICONDETagInfo("(0010,0010)", "Component's Name", "PN") }, //DICONDE:Component 
+			{ "(0010,0020)", new DICONDETagInfo("(0010,0020)", "Component ID", "LO") },  //DICONDE: Component
 			{ "(0010,0021)", new DICONDETagInfo("(0010,0021)", "Issuer of Component ID", "LO") }, 
 			{ "(0010,0022)", new DICONDETagInfo("(0010,0022)", "Type of Component ID", "CS") },
 			{ "(0010,0024)", new DICONDETagInfo("(0010,0024)", "Issuer of Component ID Qualifiers Sequence", "SQ") },
