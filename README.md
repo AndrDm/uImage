@@ -4,18 +4,21 @@ Learn C#/WPF by building micro Image Viewer from scratch.
 Just my "learning by doing" pet project, which could be useful for someone else.
 
 ## Getting started:
-- Download and install latest .NET Core SDK (3.1.102 released 18-FEB-2020):
-  https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.102-windows-x64-installer
+- Download and install latest .NET 6.0.7 SDK (v6.0.302 released 12-JUL-2022):
+  https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.302-windows-x64-installer
 - Obtain latest code snapshot (https://github.com/AndrDm/uImage/archive/master.zip)
 - Build project 
 ````console
 >dotnet build µImage.sln
 ````
-- or run it 
+- or go to \Source\µImage.Viewer folder and run it 
 ````console
 >dotnet run µImage.Viewer.csproj
 ````
 ### Project iterations:
+v.1.17 (08-AUG-2022)
+Targeted for .NET 6.0
+
 v.1.16.0.21 (28-FEB-2020)
 ROI's thickness and sizes of the anchors scaled with magnification factor
 
@@ -51,7 +54,7 @@ Mapping 16 to 8 bit added + Color Palettes
 
 v.1.6.0.10 (05-FEB-2020)
 Pixel Info, Zoom to Fit, Open File (8 and 16 bit grays)
-  
+
 v.1.5.0.9 (29-JAN-2020)
 Pan functionality was added to the Display Control
 
